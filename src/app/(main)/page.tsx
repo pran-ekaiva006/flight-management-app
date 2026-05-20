@@ -1,71 +1,127 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { logoutAction } from '@/features/auth/actions/auth-actions';
+import Link from 'next/link';
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  // If not logged in, redirect to login
   if (!user) {
     redirect('/login');
   }
 
+  // Fetch some stats
+  const { count: flightCount } = await supabase
+    .from('flights')
+    .select('*', { count: 'exact', head: true });
+
+  const { data: bookings } = await supabase
+    .from('bookings')
+    .select('id, status')
+    .eq('user_id', user.id);
+
+  const activeBookings = bookings?.filter((b) => b.status === 'confirmed').length || 0;
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 p-4">
-      {/* Welcome Card */}
-      <div className="w-full max-w-md rounded-2xl border border-gray-200/60 bg-white/80 p-8 text-center shadow-xl backdrop-blur-lg dark:border-gray-700/50 dark:bg-gray-800/60">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25">
-          <svg
-            className="h-8 w-8 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-            />
-          </svg>
-        </div>
-
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Flight Management
+    <div className="space-y-8">
+      {/* Welcome Section */}
+      <div className="rounded-2xl bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 p-6 text-white shadow-xl shadow-primary-500/20 sm:p-8">
+        <p className="text-sm font-medium text-primary-200">Welcome back,</p>
+        <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
+          {user.user_metadata?.full_name || user.email?.split('@')[0]}! ✈️
         </h1>
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          Welcome, {user.user_metadata?.full_name || user.email}
+        <p className="mt-2 text-sm text-primary-100">
+          Ready to explore the skies? Search flights and book your next adventure.
         </p>
+        <Link
+          href="/search"
+          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-2.5 text-sm font-semibold text-primary-700 shadow-lg transition-all hover:bg-primary-50 hover:shadow-xl"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+          Search Flights
+        </Link>
+      </div>
 
-        {/* Status badges */}
-        <div className="mt-6 space-y-2 rounded-xl bg-gray-50 p-4 text-left text-xs dark:bg-gray-900/50">
-          <p className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-green-500" />
-            Authenticated
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-green-500" />
-            Session active
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-green-500" />
-            {user.email}
-          </p>
+      {/* Quick Stats */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{flightCount || 0}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Available flights</p>
+            </div>
+          </div>
         </div>
 
-        {/* Logout */}
-        <form action={logoutAction} className="mt-6">
-          <button
-            type="submit"
-            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-          >
-            Sign out
-          </button>
-        </form>
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600 dark:bg-green-950 dark:text-green-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeBookings}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Active bookings</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">4</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Routes available</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
+
+      {/* Quick Actions */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Link
+          href="/search"
+          className="group flex items-center gap-4 rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm transition-all hover:border-primary-200 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary-800"
+        >
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-600 transition-colors group-hover:bg-primary-100 dark:bg-primary-950 dark:text-primary-400">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Search Flights</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Find and book your next flight</p>
+          </div>
+        </Link>
+
+        <Link
+          href="/bookings"
+          className="group flex items-center gap-4 rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm transition-all hover:border-primary-200 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary-800"
+        >
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-green-600 transition-colors group-hover:bg-green-100 dark:bg-green-950 dark:text-green-400">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">My Bookings</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">View and manage your bookings</p>
+          </div>
+        </Link>
+      </div>
+    </div>
   );
 }
