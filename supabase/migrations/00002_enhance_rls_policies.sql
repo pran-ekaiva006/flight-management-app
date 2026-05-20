@@ -1,20 +1,3 @@
--- =====================================================
--- Flight Management App — Enhanced RLS Policies
--- Migration: 00002_enhance_rls_policies
--- =====================================================
--- Hardens security beyond the base policies in 00001:
---   • Blocks direct DELETE on all user tables
---   • Prevents direct UPDATE on seats (must use RPC)
---   • Restricts booking updates to status-only changes
---   • Ensures passenger updates go through owner check
---   • Adds service-role-only INSERT policies for admin tables
-
-
--- ─── FLIGHTS — Block all mutations from clients ────────
--- Flights are admin-managed; clients can only SELECT.
--- (INSERT/UPDATE/DELETE default to DENY when RLS is on
---  and no permissive policy exists for those operations.)
--- Explicit deny makes intent clear:
 
 CREATE POLICY "Flights are read-only for all users"
   ON flights FOR UPDATE

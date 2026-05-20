@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="rounded-2xl border border-gray-200/60 bg-white/80 p-8 shadow-xl shadow-gray-200/40 backdrop-blur-lg dark:border-gray-700/50 dark:bg-gray-800/60 dark:shadow-black/20 sm:p-10">
+    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-lg sm:p-10">
       {/* Header */}
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-900 shadow-lg">
           <svg
             className="h-7 w-7 text-white"
             fill="none"
@@ -26,10 +26,10 @@ export default function LoginPage() {
             />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-gray-900">
           Welcome back
         </h1>
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-2 text-sm text-gray-500">
           Sign in to manage your flights and bookings
         </p>
       </div>

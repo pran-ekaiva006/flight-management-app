@@ -1,11 +1,3 @@
-/**
- * ─── Supabase Database Types ────────────────────────────
- * Generated to match the schema in supabase/migrations/00001_create_core_schema.sql
- *
- * To regenerate from live DB:
- *   npx supabase gen types typescript --project-id ofwdzjctqgqeitdmxxjr > src/types/database.types.ts
- */
-
 export type Json =
   | string
   | number
@@ -14,11 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type FlightStatus = 'scheduled' | 'boarding' | 'departed' | 'arrived' | 'cancelled' | 'delayed';
-export type SeatClass = 'economy' | 'business' | 'first';
-export type BookingStatus = 'confirmed' | 'rescheduled' | 'cancelled';
-
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       flights: {
@@ -30,7 +18,7 @@ export interface Database {
           departs_at: string;
           arrives_at: string;
           aircraft_type: string;
-          status: FlightStatus;
+          status: Database['public']['Enums']['flight_status'];
           base_price: number;
           created_at: string;
           updated_at: string;
@@ -43,7 +31,7 @@ export interface Database {
           departs_at: string;
           arrives_at: string;
           aircraft_type?: string;
-          status?: FlightStatus;
+          status?: Database['public']['Enums']['flight_status'];
           base_price: number;
           created_at?: string;
           updated_at?: string;
@@ -56,7 +44,7 @@ export interface Database {
           departs_at?: string;
           arrives_at?: string;
           aircraft_type?: string;
-          status?: FlightStatus;
+          status?: Database['public']['Enums']['flight_status'];
           base_price?: number;
           created_at?: string;
           updated_at?: string;
@@ -68,7 +56,7 @@ export interface Database {
           id: string;
           flight_id: string;
           seat_number: string;
-          class: SeatClass;
+          class: Database['public']['Enums']['seat_class'];
           is_available: boolean;
           extra_fee: number;
           created_at: string;
@@ -78,7 +66,7 @@ export interface Database {
           id?: string;
           flight_id: string;
           seat_number: string;
-          class?: SeatClass;
+          class?: Database['public']['Enums']['seat_class'];
           is_available?: boolean;
           extra_fee?: number;
           created_at?: string;
@@ -88,7 +76,7 @@ export interface Database {
           id?: string;
           flight_id?: string;
           seat_number?: string;
-          class?: SeatClass;
+          class?: Database['public']['Enums']['seat_class'];
           is_available?: boolean;
           extra_fee?: number;
           created_at?: string;
@@ -110,7 +98,7 @@ export interface Database {
           user_id: string;
           flight_id: string;
           seat_id: string;
-          status: BookingStatus;
+          status: Database['public']['Enums']['booking_status'];
           booked_at: string;
           total_price: number;
           pnr_code: string;
@@ -122,7 +110,7 @@ export interface Database {
           user_id: string;
           flight_id: string;
           seat_id: string;
-          status?: BookingStatus;
+          status?: Database['public']['Enums']['booking_status'];
           booked_at?: string;
           total_price: number;
           pnr_code: string;
@@ -134,7 +122,7 @@ export interface Database {
           user_id?: string;
           flight_id?: string;
           seat_id?: string;
-          status?: BookingStatus;
+          status?: Database['public']['Enums']['booking_status'];
           booked_at?: string;
           total_price?: number;
           pnr_code?: string;
@@ -286,29 +274,101 @@ export interface Database {
       };
     };
     Enums: {
-      flight_status: FlightStatus;
-      seat_class: SeatClass;
-      booking_status: BookingStatus;
+      flight_status:
+        | 'scheduled'
+        | 'boarding'
+        | 'departed'
+        | 'arrived'
+        | 'cancelled'
+        | 'delayed';
+      seat_class: 'economy' | 'business' | 'first';
+      booking_status: 'confirmed' | 'rescheduled' | 'cancelled';
     };
     CompositeTypes: {
       [_ in never]: never;
     };
   };
-}
+};
 
-// ─── Convenience type helpers ───────────────────────────
+// ─── Convenience Helpers ────────────────────────────────
+type PublicSchema = Database[Extract<keyof Database, 'public'>];
 
-export type Tables<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T]['Row'];
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+        Database[PublicTableNameOrOptions['schema']]['Views'])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+      Row: infer R;
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
+        PublicSchema['Views'])
+    ? (PublicSchema['Tables'] &
+        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
 
-export type InsertTables<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T]['Insert'];
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema['Tables']
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Insert: infer I;
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
 
-export type UpdateTables<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T]['Update'];
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema['Tables']
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Update: infer U;
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
 
-export type Flight = Tables<'flights'>;
-export type Seat = Tables<'seats'>;
-export type Booking = Tables<'bookings'>;
-export type Passenger = Tables<'passengers'>;
-export type Reschedule = Tables<'reschedules'>;
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema['Enums']
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
+    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+    : never;

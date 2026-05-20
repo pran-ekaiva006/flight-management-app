@@ -12,13 +12,10 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="relative w-full rounded-xl bg-gradient-to-r from-primary-600 to-primary-700
-                 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/25
-                 transition-all hover:from-primary-700 hover:to-primary-800
-                 hover:shadow-primary-500/40 focus:outline-none focus:ring-2
-                 focus:ring-primary-500/50 focus:ring-offset-2
-                 disabled:cursor-not-allowed disabled:opacity-60
-                 dark:shadow-primary-500/10 dark:focus:ring-offset-gray-900"
+      className="relative w-full rounded-xl bg-gray-900 px-4 py-3 text-sm font-semibold
+                 text-white shadow-sm transition-all hover:bg-gray-800
+                 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
+                 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? (
         <span className="flex items-center justify-center gap-2">
@@ -42,7 +39,7 @@ export function LoginForm() {
     <form action={formAction} className="space-y-5">
       {/* Error message */}
       {state?.error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400">
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {state.error}
         </div>
       )}
@@ -51,7 +48,7 @@ export function LoginForm() {
       <div className="space-y-2">
         <label
           htmlFor="login-email"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700"
         >
           Email address
         </label>
@@ -62,11 +59,9 @@ export function LoginForm() {
           autoComplete="email"
           required
           placeholder="you@example.com"
-          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm
+          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm
                      text-gray-900 shadow-sm transition-all placeholder:text-gray-400
-                     focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20
-                     dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
-                     dark:focus:border-primary-400 dark:focus:ring-primary-400/20"
+                     focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200"
         />
       </div>
 
@@ -74,7 +69,7 @@ export function LoginForm() {
       <div className="space-y-2">
         <label
           htmlFor="login-password"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700"
         >
           Password
         </label>
@@ -85,11 +80,9 @@ export function LoginForm() {
           autoComplete="current-password"
           required
           placeholder="••••••••"
-          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm
+          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm
                      text-gray-900 shadow-sm transition-all placeholder:text-gray-400
-                     focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20
-                     dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
-                     dark:focus:border-primary-400 dark:focus:ring-primary-400/20"
+                     focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200"
         />
       </div>
 
@@ -97,11 +90,11 @@ export function LoginForm() {
       <SubmitButton />
 
       {/* Link to signup */}
-      <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+      <p className="text-center text-sm text-gray-500">
         Don&apos;t have an account?{' '}
         <Link
           href="/signup"
-          className="font-medium text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400"
+          className="font-medium text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:decoration-gray-900"
         >
           Create one
         </Link>

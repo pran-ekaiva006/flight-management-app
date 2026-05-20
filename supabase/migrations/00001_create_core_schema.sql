@@ -1,9 +1,3 @@
--- =====================================================
--- Flight Management App — Core Relational Schema
--- Migration: 00001_create_core_schema
--- =====================================================
-
--- ─── ENUMS ──────────────────────────────────────────────
 
 CREATE TYPE flight_status AS ENUM (
   'scheduled',
