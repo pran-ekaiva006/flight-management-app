@@ -4,6 +4,7 @@ import type {
   FlightSortOption,
   SeatClassSummary,
 } from '../types/flight';
+import { resolveAirportCode } from '../utils/airport-codes';
 
 interface SearchFlightsParams {
   origin: string;
@@ -27,6 +28,10 @@ export async function searchFlights({
 }: SearchFlightsParams): Promise<FlightSearchResult[]> {
   const supabase = await createClient();
 
+  // Resolve city names to IATA codes (e.g., "delhi" → "DEL")
+  const resolvedOrigin = resolveAirportCode(origin);
+  const resolvedDestination = resolveAirportCode(destination);
+
   // Build date range for the departure day
   const dayStart = `${departureDate}T00:00:00`;
   const dayEnd = `${departureDate}T23:59:59`;
@@ -45,8 +50,8 @@ export async function searchFlights({
       )
     `,
     )
-    .ilike('origin', origin)
-    .ilike('destination', destination)
+    .ilike('origin', resolvedOrigin)
+    .ilike('destination', resolvedDestination)
     .gte('departs_at', dayStart)
     .lte('departs_at', dayEnd)
     .in('status', ['scheduled', 'boarding', 'delayed']);
