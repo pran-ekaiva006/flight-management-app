@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { loginAction, type AuthActionResult } from '../actions/auth-actions';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const initialState: AuthActionResult = {};
 
@@ -35,14 +37,18 @@ function SubmitButton() {
 export function LoginForm() {
   const [state, formAction] = useFormState(loginAction, initialState);
 
+  useEffect(() => {
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state?.error]);
+
   return (
-    <form action={formAction} className="space-y-5">
-      {/* Error message */}
-      {state?.error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {state.error}
-        </div>
-      )}
+    <form action={formAction} className="space-y-5" noValidate>
+      {/* Error message fallback for screen readers */}
+      <div aria-live="polite" className="sr-only">
+        {state?.error}
+      </div>
 
       {/* Email */}
       <div className="space-y-2">

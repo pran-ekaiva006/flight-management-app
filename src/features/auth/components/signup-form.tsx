@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { signupAction, type AuthActionResult } from '../actions/auth-actions';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const initialState: AuthActionResult = {};
 
@@ -35,14 +37,21 @@ function SubmitButton() {
 export function SignupForm() {
   const [state, formAction] = useFormState(signupAction, initialState);
 
+  useEffect(() => {
+    if (state?.error) {
+      toast.error(state.error);
+    }
+    if (state?.success) {
+      toast.success('Account created! Check your email.');
+    }
+  }, [state?.error, state?.success]);
+
   return (
-    <form action={formAction} className="space-y-5">
-      {/* Error message */}
-      {state?.error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {state.error}
-        </div>
-      )}
+    <form action={formAction} className="space-y-5" noValidate>
+      {/* Error message fallback for screen readers */}
+      <div aria-live="polite" className="sr-only">
+        {state?.error}
+      </div>
 
       {/* Success message */}
       {state?.success && (

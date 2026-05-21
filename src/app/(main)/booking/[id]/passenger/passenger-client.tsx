@@ -6,6 +6,7 @@ import { PassengerForm } from '@/features/booking/components/passenger-form';
 import { createBookingAction } from '@/features/booking/actions/create-booking-action';
 import type { PassengerInput } from '@/features/booking/schemas/passenger-schema';
 import { useFlightStore } from '@/store/flight-store';
+import { toast } from 'sonner';
 
 interface PassengerPageClientProps {
   flightId: string;
@@ -51,6 +52,7 @@ export function PassengerPageClient({
 
         if (!result.success) {
           setError(result.error || 'Something went wrong');
+          toast.error(result.error || 'Something went wrong');
           setIsSubmitting(false);
         }
         // On success, the action redirects to /booking/confirmation/[id]
@@ -103,13 +105,10 @@ export function PassengerPageClient({
         </div>
       )}
 
-      {/* Error banner */}
-      {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-400">
-          <p className="font-medium">Booking failed</p>
-          <p className="mt-1">{error}</p>
-        </div>
-      )}
+      {/* Error message fallback for screen readers */}
+      <div aria-live="polite" className="sr-only">
+        {error}
+      </div>
 
       {/* Passenger Form */}
       <div className="rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">

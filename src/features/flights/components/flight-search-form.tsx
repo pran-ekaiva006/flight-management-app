@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
+import { toast } from 'sonner';
 import {
   searchFlightsAction,
   type SearchActionResult,
@@ -140,6 +142,12 @@ interface FlightSearchFormProps {
 export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
   const [state, formAction] = useFormState(searchFlightsAction, initialState);
 
+  useEffect(() => {
+    if (state?.error && !state.fieldErrors) {
+      toast.error(state.error);
+    }
+  }, [state?.error, state?.fieldErrors]);
+
   // Today's date in YYYY-MM-DD for the min attribute
   const today = new Date().toISOString().split('T')[0];
 
@@ -155,26 +163,11 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
      }`;
 
   return (
-    <form action={formAction} className="space-y-6">
-      {/* Global error banner */}
-      {state?.error && !state.fieldErrors && (
-        <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400">
-          <svg
-            className="h-4 w-4 flex-shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-            />
-          </svg>
-          {state.error}
-        </div>
-      )}
+    <form action={formAction} className="space-y-6" noValidate>
+      {/* Global error fallback for screen readers */}
+      <div aria-live="polite" className="sr-only">
+        {state?.error && !state.fieldErrors ? state.error : ''}
+      </div>
 
       {/* Form fields — responsive grid */}
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
