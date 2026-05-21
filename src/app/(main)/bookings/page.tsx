@@ -289,7 +289,10 @@ async function BookingsList() {
                       View
                     </a>
                     {canCancel && (
-                      <CancelBookingButton bookingId={booking.id} />
+                      <CancelBookingButton
+                        bookingId={booking.id}
+                        pnrCode={booking.pnr_code}
+                      />
                     )}
                   </div>
                 </div>
