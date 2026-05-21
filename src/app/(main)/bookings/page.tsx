@@ -7,6 +7,7 @@ import { EmptyState } from '@/components/shared/empty-state';
 import { getAirportName } from '@/features/flights/utils/airport-codes';
 import Link from 'next/link';
 import { CancelBookingButton } from '@/features/booking/components/cancel-booking-button';
+import { RescheduleButton } from '@/features/booking/components/reschedule-button';
 
 export const metadata: Metadata = {
   title: 'My Bookings',
@@ -288,6 +289,9 @@ async function BookingsList() {
                     >
                       View
                     </a>
+                    {canCancel && (
+                      <RescheduleButton bookingId={booking.id} />
+                    )}
                     {canCancel && (
                       <CancelBookingButton
                         bookingId={booking.id}

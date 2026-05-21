@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader } from '@/components/shared/page-header';
 import { getAirportName } from '@/features/flights/utils/airport-codes';
+import { PrintTicketButton } from './print-ticket-button';
 
 export const metadata: Metadata = {
   title: 'Booking Confirmed',
@@ -293,15 +294,7 @@ export default async function ConfirmationPage({
             >
               View My Bookings
             </a>
-            <button
-              type="button"
-              onClick={() => {}}
-              className="flex-1 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold
-                         text-gray-700 shadow-sm transition-all hover:bg-gray-50
-                         dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-            >
-              Print Ticket
-            </button>
+            <PrintTicketButton />
           </div>
         </div>
       </div>

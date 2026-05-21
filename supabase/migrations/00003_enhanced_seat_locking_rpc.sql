@@ -1,18 +1,3 @@
--- =====================================================
--- Migration: Enhanced Transactional Seat Locking RPCs
--- Replaces the basic reserve_seat and cancel_booking
--- with production-hardened versions.
--- =====================================================
-
-
--- ─── ENHANCED RESERVE_SEAT ─────────────────────────────
--- Improvements over v1:
---   1. Advisory lock on seat_id to serialize concurrent requests
---   2. Flight status validation (must be scheduled/boarding/delayed)
---   3. Departure time check (no booking after departure)
---   4. Duplicate booking prevention (same user + same flight)
---   5. Seat↔Flight cross-validation
---   6. Explicit error codes for each failure mode
 
 CREATE OR REPLACE FUNCTION reserve_seat(
   p_user_id     UUID,
