@@ -272,6 +272,15 @@ export type Database = {
         };
         Returns: undefined;
       };
+      reschedule_booking: {
+        Args: {
+          p_booking_id: string;
+          p_user_id: string;
+          p_new_flight_id: string;
+          p_new_seat_id: string;
+        };
+        Returns: Json;
+      };
     };
     Enums: {
       flight_status:
