@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import type { FlightSearchResult } from '../types/flight';
 
 /**
  * ─── Flight Result Card ─────────────────────────────────
  * Premium card displaying a single flight search result.
  */
-export function FlightResultCard({
+export const FlightResultCard = memo(function FlightResultCard({
   flight,
   passengers,
 }: {
@@ -186,6 +187,7 @@ export function FlightResultCard({
             </div>
             <a
               href={`/booking/${flight.id}?passengers=${passengers}`}
+              aria-label={`Select flight ${flight.flight_no} to ${flight.destination} starting from ${formatPrice(lowestPrice)}`}
               className="rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white
                          shadow-sm transition-all hover:bg-gray-800 hover:shadow-md
                          focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2

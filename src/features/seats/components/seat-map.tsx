@@ -265,9 +265,15 @@ export function SeatMap({
                             onClick={() =>
                               seat.is_available && onSeatSelect(seat)
                             }
+                            aria-label={
+                              seat.is_available
+                                ? `Seat ${seat.seat_number}, ${classLabels[seat.class]?.label ?? seat.class}, ${formatPrice(basePrice + seat.extra_fee)}`
+                                : `Seat ${seat.seat_number} is occupied`
+                            }
+                            aria-pressed={selectedSeatId === seat.id}
                             className={`
                               flex h-9 w-9 items-center justify-center rounded-md border-2 text-xs font-medium
-                              transition-all duration-150
+                              transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
                               ${
                                 selectedSeatId === seat.id
                                   ? seatColors.selected

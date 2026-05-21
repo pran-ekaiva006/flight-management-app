@@ -10,15 +10,14 @@ export default async function HomePage() {
     redirect('/login');
   }
 
-  // Fetch some stats
-  const { count: flightCount } = await supabase
-    .from('flights')
-    .select('*', { count: 'exact', head: true });
-
-  const { data: bookings } = await supabase
-    .from('bookings')
-    .select('id, status')
-    .eq('user_id', user.id);
+  // Fetch stats concurrently
+  const [
+    { count: flightCount },
+    { data: bookings }
+  ] = await Promise.all([
+    supabase.from('flights').select('*', { count: 'exact', head: true }),
+    supabase.from('bookings').select('id, status').eq('user_id', user.id)
+  ]);
 
   const activeBookings = bookings?.filter((b) => b.status === 'confirmed').length || 0;
 
