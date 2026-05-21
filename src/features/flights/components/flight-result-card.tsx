@@ -200,4 +200,4 @@ export const FlightResultCard = memo(function FlightResultCard({
       </div>
     </div>
   );
-}
+});
