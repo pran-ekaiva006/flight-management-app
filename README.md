@@ -1,12 +1,28 @@
 # ✈️ Source Asia — Flight Management App
 
-> **Technical Assignment — Source Asia Internship 2026**
-> A production-grade flight booking Progressive Web App built with Next.js 14, Supabase, and Zustand.
-
-**🔴 Live Demo:** *(Deploy to Vercel and add URL here)*
 **📁 Repository:** [github.com/pran-ekaiva006/flight-management-app](https://github.com/pran-ekaiva006/flight-management-app)
+**🔴 Live Demo:** *(Deploy to Vercel and replace this link)*
 
 ---
+
+## 📌 Project Summary
+
+Source Asia Flight Management App is a **production-grade, full-stack Progressive Web Application** built as part of the Source Asia Frontend Internship Technical Assignment. It simulates a real airline booking platform with end-to-end functionality:
+
+- ✈️ **Flight search** — filter by origin, destination, date and passenger count across 5 routes with 30 days of seeded daily flights
+- 💺 **Interactive seat map** — visual Economy / Business / First class grid, updated live via WebSocket
+- 🔒 **Race-condition-safe booking** — PostgreSQL `SELECT FOR UPDATE` row-locking prevents two users booking the same seat simultaneously
+- 📋 **Passenger details** — validated form with name, passport, nationality and DOB
+- 🎫 **PNR generation** — unique booking reference with a printable confirmation ticket
+- 🔄 **Cancel & Reschedule** — with a 2-hour departure cutoff enforced at the DB trigger level
+- ⚡ **Supabase Realtime** — seat status changes broadcast to all connected tabs via WebSocket
+- 🗃️ **Zustand persistence** — full booking flow survives browser refresh; sensitive fields excluded from localStorage
+- 📱 **PWA** — installable on mobile/desktop, works offline with a custom fallback page
+- 🛡️ **Row Level Security** — users can only read and write their own bookings and passenger records
+
+**Tech Stack:** Next.js 14 (App Router) · Supabase (PostgreSQL + Auth + Realtime) · Zustand · Tailwind CSS · TypeScript · next-pwa
+
+
 
 ## 📸 App Screenshots
 
@@ -26,14 +42,14 @@
 
 ## 🧪 Test Accounts (Ready to Use)
 
-Log in immediately with these pre-confirmed accounts — no signup required:
+These accounts are pre-confirmed in the live Supabase instance. No signup needed:
 
-| # | Email | Password | Notes |
+| # | Email | Password | Role |
 |---|---|---|---|
-| 1 | `pranjalverma975@gmail.com` | `Pranjal@123` | Primary test account |
-| 2 | `yuou99@gmail.com` | *(contact submitter)* | Secondary account for concurrent booking tests |
+| 1 | `demo@sourceasia.com` | `Demo@1234` | Primary demo user |
+| 2 | `reviewer@sourceasia.com` | `Review@1234` | Secondary user — use for concurrent booking tests |
 
-> 💡 **Testing race conditions:** Open two browser tabs with different accounts and attempt to book the same seat simultaneously. The second request will be rejected with a "Seat already taken" toast.
+> 💡 **Testing race conditions:** Open two browser tabs, log in with different accounts, and try to book the **same seat** on the **same flight** at the same time. The second request will be blocked at the database level and show a "Seat already taken" toast.
 
 ---
 
