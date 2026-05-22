@@ -224,6 +224,17 @@ The booking flow spans multiple pages (search → select seat → passenger → 
 
 ---
 
+## 🚧 Incomplete Features & Future Enhancements
+
+While the core functionality of a flight booking system is complete, the following features are not yet implemented due to the scope of the assignment:
+
+- **Payment Gateway Integration:** The booking flow calculates pricing but does not integrate with a real payment provider (e.g., Stripe, Razorpay). Bookings are confirmed instantly.
+- **Email/SMS Notifications:** Users do not receive actual emails with their PNR or ticket. The ticket is only available to print/download within the app.
+- **Admin Dashboard:** Currently, there is no admin interface to create/update flights or view platform-wide bookings.
+- **Dynamic Pricing:** Flight prices are static. In a real scenario, prices would fluctuate based on demand, time to departure, and remaining seats.
+
+---
+
 ## 📁 Project Structure
 
 ```
