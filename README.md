@@ -1,30 +1,20 @@
 # ✈️ Source Asia — Flight Management App
 
-> A production-ready Progressive Web Application for searching, booking, and managing flights in real-time — built for the Source Asia Internship Technical Assignment.
+> **Technical Assignment — Source Asia Internship 2026**
+> A production-grade flight booking Progressive Web App built with Next.js 14, Supabase, and Zustand.
 
-**🔴 Live Demo:** Replace with your Vercel URL after deployment.
+**🔴 Live Demo:** *(Deploy to Vercel and add URL here)*
 **📁 Repository:** [github.com/pran-ekaiva006/flight-management-app](https://github.com/pran-ekaiva006/flight-management-app)
 
 ---
 
-## 📖 Summary
+## 📸 App Screenshots
 
-A full-stack flight booking system built with **Next.js 14 (App Router)**, **Supabase (PostgreSQL + Realtime)**, **Zustand**, and **Tailwind CSS**. Key features include:
-
-- 🔒 Transactional seat locking to prevent double-booking (race condition safe)
-- ⚡ Real-time seat map updates via Supabase WebSockets
-- 📱 Fully installable PWA with offline support
-- 🗃️ Zustand state persistence across page refreshes mid-booking
-
----
-
-## 📸 Screenshots
-
-| Landing / Dashboard | Search Flights |
+| Dashboard | Search Flights |
 |:---:|:---:|
-| ![Landing](docs/screenshots/landing.png) | ![Search](docs/screenshots/search-flights.png) |
+| ![Dashboard](docs/screenshots/landing.png) | ![Search](docs/screenshots/search-flights.png) |
 
-| Select Your Seat | Passenger Details |
+| Realtime Seat Map | Passenger Details |
 |:---:|:---:|
 | ![Seat Map](docs/screenshots/select-seat.png) | ![Passenger](docs/screenshots/passenger-details.png) |
 
@@ -34,44 +24,120 @@ A full-stack flight booking system built with **Next.js 14 (App Router)**, **Sup
 
 ---
 
-## 🧪 Test Credentials
+## 🧪 Test Accounts (Ready to Use)
 
-| Field | Value |
-|---|---|
-| Email | `pranjalverma975@gmail.com` |
-| Password | Your registered password |
+Log in immediately with these pre-confirmed accounts — no signup required:
 
-> To add your own test user, run `supabase/seed.sql` in the Supabase SQL editor.
+| # | Email | Password | Notes |
+|---|---|---|---|
+| 1 | `pranjalverma975@gmail.com` | `Pranjal@123` | Primary test account |
+| 2 | `yuou99@gmail.com` | *(contact submitter)* | Secondary account for concurrent booking tests |
 
----
-
-## 🏗️ Architecture
-
-```
-Next.js 14 (App Router)
-├── Server Components  → Data fetching (flights, bookings)
-├── Client Components  → Seat map, forms, realtime UI
-├── Server Actions     → create/cancel/reschedule bookings
-└── Middleware         → Auth session refresh on every request
-
-Supabase
-├── PostgreSQL         → flights, seats, bookings, passengers, reschedules
-├── Auth               → Email/password with SSR session management
-├── Realtime           → Live seat availability via WebSocket channels
-└── RLS Policies       → Users can only read/write their own bookings
-
-Zustand
-├── flight-store       → Search query, selected flight/seat, booking step
-└── user-store         → Session token (persisted), bookings cache (transient)
-```
+> 💡 **Testing race conditions:** Open two browser tabs with different accounts and attempt to book the same seat simultaneously. The second request will be rejected with a "Seat already taken" toast.
 
 ---
 
-## ⚙️ Setup
+## 📋 Assignment Requirements Coverage
+
+| Requirement | Status | Implementation |
+|---|---|---|
+| User auth (signup/login) | ✅ | Supabase Auth with SSR session management |
+| Flight search with filters | ✅ | Server Components with origin, destination, date, passengers |
+| Interactive seat map | ✅ | Visual grid with first/business/economy classes |
+| Realtime seat availability | ✅ | Supabase Realtime WebSocket on `seats` table |
+| Atomic seat locking (no double-booking) | ✅ | `reserve_seat` RPC with `SELECT FOR UPDATE` |
+| Passenger details collection | ✅ | Validated form (name, passport, nationality, DOB) |
+| Booking confirmation with PNR | ✅ | Unique PNR generated, printable ticket |
+| Cancel booking | ✅ | With 2-hour departure restriction at DB trigger level |
+| Reschedule booking | ✅ | `reschedule_booking` RPC with fee calculation |
+| My Bookings page | ✅ | Lists all bookings with status and actions |
+| Row Level Security | ✅ | Users can only access their own bookings/passengers |
+| Zustand state management | ✅ | `flight-store` with `persist` middleware |
+| PWA (installable) | ✅ | `next-pwa`, manifest, icons, standalone mode |
+| Offline support | ✅ | StaleWhileRevalidate cache + `/offline` fallback |
+| Responsive / mobile-first | ✅ | Bottom nav on mobile, fluid layouts |
+| Toast notifications | ✅ | `sonner` for errors, success, and warnings |
+| Accessibility (a11y) | ✅ | aria-labels, aria-pressed, focus rings, sr-only |
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    Next.js 14 (App Router)                │
+│  ┌─────────────────┐  ┌──────────────────────────────┐   │
+│  │ Server Components│  │ Client Components             │   │
+│  │ - Flight search  │  │ - Seat map (realtime)        │   │
+│  │ - Bookings list  │  │ - Login/signup forms         │   │
+│  │ - Dashboard      │  │ - Passenger form             │   │
+│  └────────┬─────────┘  └──────────────┬───────────────┘   │
+│           │  Server Actions            │ Zustand Store     │
+│           └────────────┬──────────────┘                   │
+└────────────────────────┼─────────────────────────────────┘
+                         │
+┌────────────────────────▼─────────────────────────────────┐
+│                       Supabase                            │
+│  ┌──────────┐  ┌─────────────┐  ┌──────────────────────┐ │
+│  │   Auth   │  │  PostgreSQL  │  │  Realtime WebSocket  │ │
+│  │ (SSR)    │  │  + RPCs     │  │  (seats table)       │ │
+│  └──────────┘  └─────────────┘  └──────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+```
+
+### Key Data Flow
+1. **Auth** — Middleware refreshes session on every request; protected routes redirect unauthenticated users
+2. **Search** — Server Component fetches matching flights via PostgREST. `Promise.all` runs queries in parallel
+3. **Seat Map** — Rendered server-side; a `useRealtimeSeats` hook subscribes to WebSocket for live updates
+4. **Booking** — Server Action calls `reserve_seat` RPC which uses `SELECT FOR UPDATE` to atomically lock the seat, insert the booking and passenger record in one transaction
+5. **Cancel/Reschedule** — Dedicated RPCs enforce business rules (2-hour window, fee calculation) at the database layer
+
+---
+
+## 🗃️ Database Schema
+
+```sql
+flights       → id, flight_no, origin, destination, departs_at, arrives_at, status, base_price
+seats         → id, flight_id, seat_number, class (economy/business/first), extra_fee, is_available
+bookings      → id, user_id, flight_id, seat_id, status, pnr_code, total_price
+passengers    → id, booking_id, full_name, passport_no, nationality, dob
+reschedules   → id, booking_id, old_flight_id, new_flight_id, fee_charged
+```
+
+**RLS Policies:** Flights and seats are publicly readable. Bookings, passengers, and reschedules are strictly scoped to `auth.uid() = user_id`.
+
+**DB Triggers:**
+- `trg_block_late_cancellation` — Prevents cancellation within 2 hours of departure
+- `trg_*_updated_at` — Auto-timestamps all tables on update
+
+---
+
+## ⚡ Zustand State Management
+
+Two stores handle all client-side state:
+
+### `flight-store` (booking flow)
+```
+State:    searchQuery | selectedFlight | selectedSeat | bookingStep | passengerData
+Persisted: searchQuery, selectedFlight, selectedSeat, bookingStep (→ localStorage)
+Excluded:  passengerData (contains passportNo — never written to localStorage)
+```
+
+### `user-store` (session cache)
+```
+State:    session | user | bookings | bookingsLoadedAt
+Persisted: session token only (re-fetches profile + bookings from Supabase on load)
+```
+
+The `partialize` option in `persist` middleware ensures sensitive data is never stored in the browser.
+
+---
+
+## ⚙️ Local Setup
 
 ### Prerequisites
 - Node.js 18+
-- A [Supabase](https://supabase.com) account
+- npm 9+
 
 ### 1. Clone & Install
 ```bash
@@ -85,66 +151,88 @@ npm install
 cp .env.example .env.local
 ```
 
-Fill in your Supabase credentials in `.env.local`:
+The project is already connected to a live Supabase instance. For your own instance, fill `.env.local`:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-### 3. Database Setup
-1. Go to your **Supabase Dashboard → SQL Editor**
-2. Run the migration files in order from `supabase/migrations/`:
-   - `00001_create_core_schema.sql`
-   - `00002_enhance_rls_policies.sql`
-   - `00003_enhanced_seat_locking_rpc.sql`
-   - `00004_reschedule_booking_rpc.sql`
-3. *(Optional)* Run `supabase/seed.sql` to insert sample flights and a test user
-4. Go to **Authentication → Providers → Email** and **disable "Confirm email"** for instant logins
+### 3. Database Setup (for fresh Supabase project)
+Run these SQL files in order via **Supabase Dashboard → SQL Editor**:
+```
+supabase/migrations/00001_create_core_schema.sql
+supabase/migrations/00002_enhance_rls_policies.sql
+supabase/migrations/00003_enhanced_seat_locking_rpc.sql
+supabase/migrations/00004_reschedule_booking_rpc.sql
+supabase/seed.sql   ← optional: seeds test flights + test user
+```
 
-### 4. Run Dev Server
+> ⚠️ Go to **Authentication → Providers → Email** and disable **"Confirm email"** so users can log in instantly without email verification.
+
+### 4. Run
 ```bash
 npm run dev
-# Open http://localhost:3000
+# App running at http://localhost:3000
 ```
 
 ---
 
 ## 🚢 Deployment (Vercel)
 
-1. Push to GitHub
-2. Import repo in [Vercel](https://vercel.com)
-3. Add the three environment variables from `.env.example`
-4. Click **Deploy**
+```bash
+# 1. Push to GitHub (already done)
+# 2. Import project at vercel.com/new
+# 3. Add environment variables:
+#    NEXT_PUBLIC_SUPABASE_URL
+#    NEXT_PUBLIC_SUPABASE_ANON_KEY
+#    SUPABASE_SERVICE_ROLE_KEY
+# 4. Deploy → done
+```
 
 ---
 
-## 🔑 Technical Decisions
+## 🔑 Technical Decisions & Tradeoffs
 
-### Race-Condition-Safe Booking
-The `reserve_seat` RPC uses `SELECT ... FOR UPDATE` to row-lock the seat inside a single transaction. Any concurrent request for the same seat will block, then fail gracefully with a `SEAT_TAKEN` error — preventing double-bookings at the database level.
+### Why `SELECT FOR UPDATE` instead of Serializable transactions?
+Serializable isolation would cause entire transactions to abort and retry on conflicts, leading to poor UX under concurrent load. Row-level locking with `SELECT FOR UPDATE` isolates the conflict to exactly the one seat being booked, allowing all other concurrent bookings to proceed normally.
 
-### Zustand + Persistence
-- `flight-store` persists search query, selected flight, and seat to `localStorage` so users can refresh mid-booking without losing context.
-- `partialize` intentionally **excludes** `passportNo` and sensitive passenger data from persistence.
+### Why enforce the 2-hour cancellation rule in Postgres instead of the API?
+A DB-level trigger (`BEFORE UPDATE`) guarantees the rule is enforced regardless of which code path (server action, direct DB call, admin bypass) triggers the update. Application-layer validation alone can be bypassed.
 
-### Supabase Realtime
-The seat map subscribes to a filtered WebSocket channel (`seats:flight_id=eq.<id>`). When any user books a seat, all other viewers see it flip to "Occupied" in real-time without refreshing.
+### Why Zustand over React Context / Server State (React Query)?
+The booking flow spans multiple pages (search → select seat → passenger → confirmation). Zustand's `persist` middleware allows seamless state restoration if the user refreshes mid-flow. React Context would be lost on page navigation, and React Query doesn't cover ephemeral UI state like "which step am I on".
 
-### PWA + Offline
-Configured with `@ducanh2912/next-pwa`. Uses `StaleWhileRevalidate` for bookings and search results. An `/offline` fallback page is served for un-cached routes when the user is offline.
-
----
-
-## ⚖️ Tradeoffs
-
-| Decision | Chosen | Alternative | Reason |
-|---|---|---|---|
-| Seat locking | `SELECT FOR UPDATE` | Serializable isolation | Less lock contention, targeted locking |
-| Realtime scope | Seats only | All tables | Flights change rarely; seat contention is real-time critical |
-| Business rules | DB triggers | Application layer | Guarantees 2-hour cancellation rule even if API is bypassed |
-| Payment | Not included | Stripe / Razorpay | Out of scope for assignment; would need a pending-booking state + webhook |
+### PWA caching strategy
+`StaleWhileRevalidate` is used for dynamic routes (bookings, search results) — the app shows cached data instantly and revalidates in the background. `CacheFirst` is used for static assets to minimize network requests.
 
 ---
 
-*Built by Pranjal Kumar Verma — Source Asia Internship Assignment 2026*
+## 📁 Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── (auth)/             # Login, signup
+│   ├── (main)/             # Dashboard, search, booking, bookings
+│   ├── api/auth/           # Supabase auth callback
+│   └── offline/            # PWA offline fallback
+├── components/
+│   ├── layout/             # Navbar, mobile nav, logout button
+│   └── shared/             # PageHeader, EmptyState
+├── features/
+│   ├── auth/               # Login/signup forms + server actions
+│   ├── booking/            # Booking actions, schemas, utils
+│   ├── flights/            # Search form, result cards, types
+│   └── seats/              # Seat map component + realtime hook
+├── lib/supabase/           # Server + client Supabase clients
+├── store/                  # Zustand stores
+└── types/                  # database.types.ts (auto-generated)
+supabase/
+├── migrations/             # Ordered SQL migration files
+└── seed.sql                # Sample data + test user
+```
+
+---
+
+*Built by **Pranjal Kumar Verma** for Source Asia Frontend Internship — May 2026*
