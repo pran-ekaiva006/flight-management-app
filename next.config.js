@@ -4,7 +4,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   register: true,
   skipWaiting: true,
   fallbacks: {
-    document: '/offline',
+    // document: '/offline', // Causes _document error in App Router
   },
   workboxOptions: {
     runtimeCaching: [
