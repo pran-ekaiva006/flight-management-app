@@ -3,7 +3,16 @@ import Link from 'next/link';
 import { FlightSearchForm } from '@/features/flights/components/flight-search-form';
 import { HeroIllustration } from '@/components/marketing/hero-illustration';
 
-export default async function HomePage() {
+interface HomePageProps {
+  searchParams: {
+    origin?: string;
+    destination?: string;
+    departureDate?: string;
+    passengers?: string;
+  };
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -272,7 +281,15 @@ export default async function HomePage() {
             </div>
             <h2 className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">Search Flights</h2>
           </div>
-          <FlightSearchForm compact={true} />
+          <FlightSearchForm
+            compact={true}
+            defaultValues={{
+              origin: searchParams?.origin,
+              destination: searchParams?.destination,
+              departureDate: searchParams?.departureDate,
+              passengers: searchParams?.passengers,
+            }}
+          />
         </div>
       </div>
 
