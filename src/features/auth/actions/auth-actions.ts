@@ -23,9 +23,15 @@ export async function loginAction(
     return { error: parsed.error.issues[0]?.message || 'Invalid input' };
   }
 
+  // Map @example.com to @sourceasia.com to support resume-ready branding with existing DB accounts
+  let loginEmail = parsed.data.email;
+  if (loginEmail.endsWith('@example.com')) {
+    loginEmail = loginEmail.replace('@example.com', '@sourceasia.com');
+  }
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
-    email: parsed.data.email,
+    email: loginEmail,
     password: parsed.data.password,
   });
 
