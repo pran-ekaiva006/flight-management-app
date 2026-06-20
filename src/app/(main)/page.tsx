@@ -220,67 +220,162 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   // ─── Guest: show public landing page ──────────────────
   return (
     <div className="space-y-16 pb-12">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-500 via-sky-300 to-sky-100 dark:from-sky-950 dark:via-sky-900 dark:to-gray-950 px-6 py-20 pb-28 sm:px-12 sm:py-24 sm:pb-36 shadow-xl shadow-sky-500/10">
-        {/* Background cloud blobs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-12 -top-12 h-64 w-64 rounded-full bg-white/20 blur-3xl dark:bg-sky-500/10" />
-          <div className="absolute right-12 top-1/4 h-80 w-80 rounded-full bg-white/25 blur-3xl dark:bg-sky-400/10" />
-          <div className="absolute left-1/3 bottom-0 h-72 w-72 rounded-full bg-white/20 blur-3xl dark:bg-sky-600/10" />
-        </div>
+      {/* Hero Section with Cloud/Airplane Background */}
+      <div className="relative overflow-hidden rounded-3xl border border-white/20 bg-[url('/images/skybooker_hero_bg.png')] bg-cover bg-center px-6 py-8 pb-32 sm:px-12 sm:pb-40 shadow-2xl">
+        {/* Dark overlay for contrast on text */}
+        <div className="absolute inset-0 bg-sky-900/10 pointer-events-none" />
 
-        {/* Rotated Plane Silhouette */}
-        <HeroIllustration />
-
-        <div className="relative z-10 text-center lg:text-left lg:max-w-2xl">
-          {/* Stat Chips */}
-          <div className="flex flex-wrap gap-2.5 mb-6 justify-center lg:justify-start">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
-              4 Active Routes
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
-              Real-Time Seat Maps
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
-              Instant Booking
+        {/* Local Container Nav */}
+        <div className="flex items-center justify-between pb-6 mb-12 border-b border-white/20 relative z-10">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-bold tracking-tight text-white drop-shadow-sm">
+              SkyBooker
             </span>
           </div>
+          <div className="hidden md:flex items-center gap-6">
+            <Link
+              href={'/search' as any}
+              className="text-xs font-semibold text-white/80 hover:text-white transition-colors drop-shadow-sm"
+            >
+              Deals
+            </Link>
+            <Link
+              href={'/search' as any}
+              className="text-xs font-semibold text-white/80 hover:text-white transition-colors drop-shadow-sm"
+            >
+              Destinations
+            </Link>
+            <Link
+              href={'/search' as any}
+              className="text-xs font-semibold text-white/80 hover:text-white transition-colors drop-shadow-sm"
+            >
+              Travel Guides
+            </Link>
+            <Link
+              href={'/search' as any}
+              className="text-xs font-semibold text-white/80 hover:text-white transition-colors drop-shadow-sm"
+            >
+              Support
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-sm hover:bg-white/20 transition-all shadow-sm"
+            >
+              Book a Flight
+            </Link>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-sm text-xs font-bold shadow-sm">
+              👤
+            </div>
+          </div>
+        </div>
 
-          <h1 className="text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-sky-950 dark:text-white leading-tight">
-            Find Your Next Flight, <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-sky-700 to-indigo-700 bg-clip-text text-transparent dark:from-sky-400 dark:to-indigo-400">Faster.</span>
+        {/* Left Stats Ribbons */}
+        <div className="hidden lg:flex flex-col gap-3 absolute left-12 top-[40%] -translate-y-1/2 z-20 pointer-events-none">
+          <div className="flex items-center gap-2 rounded-r-xl border-l-4 border-l-blue-500 bg-sky-950/20 backdrop-blur-md border border-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-lg tracking-wide">
+            450+ Airlines Supported
+          </div>
+          <div className="flex items-center gap-2 rounded-r-xl border-l-4 border-l-blue-500 bg-sky-950/20 backdrop-blur-md border border-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-lg tracking-wide">
+            12,230+ Destinations
+          </div>
+          <div className="flex items-center gap-2 rounded-r-xl border-l-4 border-l-blue-500 bg-sky-950/20 backdrop-blur-md border border-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-lg tracking-wide">
+            8.5M+ Flights Booked
+          </div>
+        </div>
+
+        {/* Right Avatar Rating Stack */}
+        <div className="hidden lg:flex flex-col items-center gap-2 absolute right-12 top-[40%] -translate-y-1/2 z-20">
+          <div className="flex -space-x-2">
+            <img
+              className="inline-block h-8 w-8 rounded-full ring-2 ring-white/40 object-cover"
+              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="avatar"
+            />
+            <img
+              className="inline-block h-8 w-8 rounded-full ring-2 ring-white/40 object-cover"
+              src="https://images.unsplash.com/photo-1550525811-e5869dd03032?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="avatar"
+            />
+            <img
+              className="inline-block h-8 w-8 rounded-full ring-2 ring-white/40 object-cover"
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+              alt="avatar"
+            />
+            <img
+              className="inline-block h-8 w-8 rounded-full ring-2 ring-white/40 object-cover"
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="avatar"
+            />
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <span className="text-sm font-bold text-white flex items-center gap-1 drop-shadow-sm">
+              <span className="text-yellow-400">★</span> 4.9
+            </span>
+            <span className="text-[10px] text-white/70 font-semibold drop-shadow-sm">
+              (75.3k)
+            </span>
+          </div>
+        </div>
+
+        {/* Headline Centered */}
+        <div className="relative z-10 text-center mx-auto max-w-3xl mt-8 sm:mt-16 pb-12">
+          <h1 className="text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]">
+            Find the Best Flights <br className="hidden sm:inline" /> at the
+            Best Prices
           </h1>
-
-          <p className="mx-auto lg:mx-0 mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-sky-900/85 dark:text-sky-200/80">
-            Compare routes, view live interactive seat availability, and lock in your next trip instantly.
+          <p className="mx-auto mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-white/90 font-medium drop-shadow-[0_2px_6px_rgba(0,0,0,0.2)]">
+            Search, compare, and book flights from hundreds of airlines
+            worldwide.
           </p>
         </div>
       </div>
 
-      {/* Overlapping Flight Search Widget */}
-      <div className="-mt-20 sm:-mt-24 relative z-10 mx-auto max-w-6xl px-4">
-        <div className="rounded-2xl border border-gray-200/60 bg-white/95 p-6 shadow-xl backdrop-blur-md dark:border-gray-800/60 dark:bg-gray-900/95">
-          <div className="flex items-center gap-2 pb-4 mb-4 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
+      {/* Overlapping Flight Search Widget with Tabs */}
+      <div className="-mt-24 sm:-mt-28 relative z-10 mx-auto max-w-6xl px-4">
+        <div className="rounded-3xl border border-gray-200/60 bg-white/95 p-6 shadow-2xl backdrop-blur-md dark:border-gray-850 dark:bg-gray-900/95">
+          {/* Tab Row matching reference image */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b border-gray-100 dark:border-gray-800">
+            {/* Left tabs */}
+            <div className="flex flex-wrap items-center gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+              <button
+                type="button"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-gray-500 rounded-lg dark:text-gray-400"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
+                🏨 Hotel
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-blue-600 text-white rounded-lg shadow-sm"
+              >
+                ✈️ Flight
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-gray-500 rounded-lg dark:text-gray-400"
+              >
+                🍴 Restaurant
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-gray-500 rounded-lg dark:text-gray-400"
+              >
+                🗺️ Tour & Guides
+              </button>
             </div>
-            <h2 className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">Search Flights</h2>
+            {/* Right dropdown placeholders */}
+            <div className="flex items-center gap-4 text-xs font-bold text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white">
+                <span>One way</span>
+                <span className="text-[9px]">▼</span>
+              </div>
+              <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white">
+                <span>Business</span>
+                <span className="text-[9px]">▼</span>
+              </div>
+            </div>
           </div>
+
           <FlightSearchForm
             compact={true}
             defaultValues={{
@@ -311,7 +406,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white">Smart Search</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">
+            Smart Search
+          </h3>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Filter by origin, destination, date, and passenger count across all
             available routes.
@@ -334,7 +431,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white">Live Seat Map</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">
+            Live Seat Map
+          </h3>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Interactive seat selection with real-time availability powered by
             WebSocket updates.
@@ -357,7 +456,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white">Race-Condition Safe</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">
+            Race-Condition Safe
+          </h3>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             PostgreSQL row-level locking ensures no two users can book the same
             seat simultaneously.
