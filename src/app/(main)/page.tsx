@@ -277,8 +277,8 @@ export default async function HomePage() {
 
       {/* Feature Highlights */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700">
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
             <svg
               className="h-5 w-5"
               fill="none"
@@ -293,15 +293,15 @@ export default async function HomePage() {
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900">Smart Search</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-900 dark:text-white">Smart Search</h3>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Filter by origin, destination, date, and passenger count across all
             available routes.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700">
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
             <svg
               className="h-5 w-5"
               fill="none"
@@ -312,19 +312,19 @@ export default async function HomePage() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900">Live Seat Map</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-900 dark:text-white">Live Seat Map</h3>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Interactive seat selection with real-time availability powered by
             WebSocket updates.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700">
+        <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
             <svg
               className="h-5 w-5"
               fill="none"
@@ -339,8 +339,8 @@ export default async function HomePage() {
               />
             </svg>
           </div>
-          <h3 className="font-semibold text-gray-900">Race-Condition Safe</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-900 dark:text-white">Race-Condition Safe</h3>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             PostgreSQL row-level locking ensures no two users can book the same
             seat simultaneously.
           </p>

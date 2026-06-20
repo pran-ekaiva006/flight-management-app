@@ -23,11 +23,7 @@ export async function loginAction(
     return { error: parsed.error.issues[0]?.message || 'Invalid input' };
   }
 
-  // Map @example.com to @sourceasia.com to support resume-ready branding with existing DB accounts
-  let loginEmail = parsed.data.email;
-  if (loginEmail.endsWith('@example.com')) {
-    loginEmail = loginEmail.replace('@example.com', '@sourceasia.com');
-  }
+  const loginEmail = parsed.data.email;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
@@ -40,6 +36,24 @@ export async function loginAction(
   }
 
   redirect('/');
+}
+
+export async function signInWithGoogleAction(): Promise<void> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/auth/callback`,
+    },
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  if (data.url) {
+    redirect(data.url);
+  }
 }
 
 export async function signupAction(
