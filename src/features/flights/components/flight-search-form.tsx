@@ -103,18 +103,22 @@ function InputGroup({
   icon,
   error,
   children,
+  compact,
 }: {
   label: string;
   htmlFor: string;
   icon: React.ReactNode;
   error?: string;
   children: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
-    <div className="space-y-1.5">
+    <div className={compact ? "space-y-1" : "space-y-1.5"}>
       <label
         htmlFor={htmlFor}
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        className={`block font-medium text-gray-700 dark:text-gray-300 ${
+          compact ? 'text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider' : 'text-sm'
+        }`}
       >
         {label}
       </label>
@@ -137,9 +141,10 @@ interface FlightSearchFormProps {
     departureDate?: string;
     passengers?: string;
   };
+  compact?: boolean;
 }
 
-export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
+export function FlightSearchForm({ defaultValues, compact }: FlightSearchFormProps) {
   const [state, formAction] = useFormState(searchFlightsAction, initialState);
 
   useEffect(() => {
@@ -152,10 +157,11 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
   const today = new Date().toISOString().split('T')[0];
 
   const inputClasses = (hasError: boolean) =>
-    `w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-sm text-gray-900
+    `w-full rounded-xl border bg-white pl-10 pr-4 text-sm text-gray-900
      shadow-sm transition-all placeholder:text-gray-400
      focus:outline-none focus:ring-2 focus:ring-offset-0
      dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
+     ${compact ? 'py-2.5' : 'py-3'}
      ${
        hasError
          ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:border-red-700 dark:focus:ring-red-900'
@@ -163,19 +169,20 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
      }`;
 
   return (
-    <form action={formAction} className="space-y-6" noValidate>
+    <form action={formAction} className={compact ? "space-y-4" : "space-y-6"} noValidate>
       {/* Global error fallback for screen readers */}
       <div aria-live="polite" className="sr-only">
         {state?.error && !state.fieldErrors ? state.error : ''}
       </div>
 
       {/* Form fields — responsive grid */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className={`grid sm:grid-cols-2 lg:grid-cols-4 ${compact ? 'gap-4' : 'gap-5'}`}>
         {/* Origin */}
         <InputGroup
           label="From"
           htmlFor="search-origin"
           error={state?.fieldErrors?.origin}
+          compact={compact}
           icon={
             <svg
               className="h-4 w-4"
@@ -208,6 +215,7 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
           label="To"
           htmlFor="search-destination"
           error={state?.fieldErrors?.destination}
+          compact={compact}
           icon={
             <svg
               className="h-4 w-4"
@@ -245,6 +253,7 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
           label="Departure"
           htmlFor="search-departure-date"
           error={state?.fieldErrors?.departureDate}
+          compact={compact}
           icon={
             <svg
               className="h-4 w-4"
@@ -276,6 +285,7 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
           label="Passengers"
           htmlFor="search-passengers"
           error={state?.fieldErrors?.passengers}
+          compact={compact}
           icon={
             <svg
               className="h-4 w-4"
@@ -306,10 +316,16 @@ export function FlightSearchForm({ defaultValues }: FlightSearchFormProps) {
       </div>
 
       {/* Divider + Submit */}
-      <div className="flex flex-col items-stretch gap-4 border-t border-gray-100 pt-5 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-gray-400 dark:text-gray-500">
-          Search across all available routes and dates
-        </p>
+      <div className={`flex flex-col items-stretch gap-4 border-t border-gray-100 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between ${
+        compact ? 'pt-4' : 'pt-5'
+      }`}>
+        {!compact ? (
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            Search across all available routes and dates
+          </p>
+        ) : (
+          <span />
+        )}
         <SearchButton />
       </div>
     </form>

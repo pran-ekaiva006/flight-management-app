@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import { FlightSearchForm } from '@/features/flights/components/flight-search-form';
+import { HeroIllustration } from '@/components/marketing/hero-illustration';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -208,48 +210,52 @@ export default async function HomePage() {
 
   // ─── Guest: show public landing page ──────────────────
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 pb-12">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-black px-6 py-16 text-center text-white shadow-2xl shadow-gray-900/30 sm:px-12 sm:py-24">
-        {/* Background decoration */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-500 via-sky-300 to-sky-100 dark:from-sky-950 dark:via-sky-900 dark:to-gray-950 px-6 py-20 pb-28 sm:px-12 sm:py-24 sm:pb-36 shadow-xl shadow-sky-500/10">
+        {/* Background cloud blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/5 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-white/5 blur-3xl" />
+          <div className="absolute -left-12 -top-12 h-64 w-64 rounded-full bg-white/20 blur-3xl dark:bg-sky-500/10" />
+          <div className="absolute right-12 top-1/4 h-80 w-80 rounded-full bg-white/25 blur-3xl dark:bg-sky-400/10" />
+          <div className="absolute left-1/3 bottom-0 h-72 w-72 rounded-full bg-white/20 blur-3xl dark:bg-sky-600/10" />
         </div>
 
-        <div className="relative z-10">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-              />
-            </svg>
+        {/* Rotated Plane Silhouette */}
+        <HeroIllustration />
+
+        <div className="relative z-10 text-center lg:text-left lg:max-w-2xl">
+          {/* Stat Chips */}
+          <div className="flex flex-wrap gap-2.5 mb-6 justify-center lg:justify-start">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
+              4 Active Routes
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
+              Real-Time Seat Maps
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1 text-xs font-semibold text-sky-950 shadow-sm backdrop-blur-sm dark:bg-gray-800/80 dark:text-sky-300">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
+              Instant Booking
+            </span>
           </div>
 
-          <h1 className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">
-            Book your next flight
-            <br />
-            <span className="text-gray-400">with SkyBooker</span>
+          <h1 className="text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-sky-950 dark:text-white leading-tight">
+            Find Your Next Flight, <br className="hidden sm:inline" />
+            <span className="bg-gradient-to-r from-sky-700 to-indigo-700 bg-clip-text text-transparent dark:from-sky-400 dark:to-indigo-400">Faster.</span>
           </h1>
 
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-base">
-            Search hundreds of flights, pick your seat in real time, and get
-            instant booking confirmation — all in one place.
+          <p className="mx-auto lg:mx-0 mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-sky-900/85 dark:text-sky-200/80">
+            Compare routes, view live interactive seat availability, and lock in your next trip instantly.
           </p>
+        </div>
+      </div>
 
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <Link
-              href="/search"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-50 hover:shadow-xl sm:w-auto"
-            >
+      {/* Overlapping Flight Search Widget */}
+      <div className="-mt-20 sm:-mt-24 relative z-10 mx-auto max-w-6xl px-4">
+        <div className="rounded-2xl border border-gray-200/60 bg-white/95 p-6 shadow-xl backdrop-blur-md dark:border-gray-800/60 dark:bg-gray-900/95">
+          <div className="flex items-center gap-2 pb-4 mb-4 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -263,20 +269,15 @@ export default async function HomePage() {
                   d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
                 />
               </svg>
-              Search Flights
-            </Link>
-            <Link
-              href="/login"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 sm:w-auto"
-            >
-              Sign in
-            </Link>
+            </div>
+            <h2 className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">Search Flights</h2>
           </div>
+          <FlightSearchForm compact={true} />
         </div>
       </div>
 
       {/* Feature Highlights */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-3 pt-4">
         <div className="rounded-2xl border border-gray-200/60 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
             <svg
