@@ -17,8 +17,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Source Asia Flights',
-    default: 'Source Asia — Flight Management',
+    template: '%s | SkyBooker',
+    default: 'SkyBooker — Flight Management',
   },
   description:
     'Search, book, and manage flights with real-time seat selection and instant PNR confirmation.',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Source Asia',
+    title: 'SkyBooker',
   },
   formatDetection: {
     telephone: false,
@@ -37,7 +37,11 @@ export const metadata: Metadata = {
       { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
-      { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      {
+        url: '/icons/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
     ],
   },
 };
@@ -59,7 +63,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light" style={{ colorScheme: 'light' }} suppressHydrationWarning>
+    <html
+      lang="en"
+      className="light"
+      style={{ colorScheme: 'light' }}
+      suppressHydrationWarning
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

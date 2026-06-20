@@ -20,26 +20,22 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
-          );
-        },
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) =>
+          request.cookies.set(name, value),
+        );
+        supabaseResponse = NextResponse.next({ request });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options),
+        );
       },
     },
-  );
+  });
 
   // IMPORTANT: Do NOT run any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very
@@ -54,7 +50,6 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/signup');
 
   const isProtectedRoute =
-    request.nextUrl.pathname.startsWith('/search') ||
     request.nextUrl.pathname.startsWith('/booking') ||
     request.nextUrl.pathname.startsWith('/bookings') ||
     request.nextUrl.pathname.startsWith('/confirmation');

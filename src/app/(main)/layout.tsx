@@ -1,11 +1,17 @@
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
+import { createClient } from '@/lib/supabase/server';
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-950">
       <Navbar />
@@ -14,7 +20,7 @@ export default function MainLayout({
         {children}
       </main>
 
-      <MobileNav />
+      <MobileNav isLoggedIn={!!user} />
     </div>
   );
 }

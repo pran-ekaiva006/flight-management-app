@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { loginAction, type AuthActionResult } from '../actions/auth-actions';
 import Link from 'next/link';
@@ -22,8 +22,19 @@ function SubmitButton() {
       {pending ? (
         <span className="flex items-center justify-center gap-2">
           <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           Signing in...
         </span>
@@ -34,8 +45,26 @@ function SubmitButton() {
   );
 }
 
+function DemoButton({ onClick }: { onClick: () => void }) {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="button"
+      disabled={pending}
+      onClick={onClick}
+      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm font-semibold
+                 text-gray-700 shadow-sm transition-all hover:bg-gray-50
+                 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
+                 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      Try demo account
+    </button>
+  );
+}
+
 export function LoginForm() {
   const [state, formAction] = useFormState(loginAction, initialState);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state?.error) {
@@ -43,8 +72,22 @@ export function LoginForm() {
     }
   }, [state?.error]);
 
+  const handleTryDemo = () => {
+    const emailInput = document.getElementById(
+      'login-email',
+    ) as HTMLInputElement;
+    const passwordInput = document.getElementById(
+      'login-password',
+    ) as HTMLInputElement;
+    if (emailInput && passwordInput) {
+      emailInput.value = 'demo@example.com';
+      passwordInput.value = 'Demo@1234';
+      formRef.current?.requestSubmit();
+    }
+  };
+
   return (
-    <form action={formAction} className="space-y-5" noValidate>
+    <form ref={formRef} action={formAction} className="space-y-5" noValidate>
       {/* Error message fallback for screen readers */}
       <div aria-live="polite" className="sr-only">
         {state?.error}
@@ -92,8 +135,11 @@ export function LoginForm() {
         />
       </div>
 
-      {/* Submit */}
-      <SubmitButton />
+      {/* Actions */}
+      <div className="space-y-3">
+        <SubmitButton />
+        <DemoButton onClick={handleTryDemo} />
+      </div>
 
       {/* Link to signup */}
       <p className="text-center text-sm text-gray-500">

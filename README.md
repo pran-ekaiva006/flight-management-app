@@ -1,4 +1,4 @@
-# ✈️ Source Asia — Flight Management App
+# ✈️ SkyBooker — Flight Management App
 
 **📁 Repository:** [github.com/pran-ekaiva006/flight-management-app](https://github.com/pran-ekaiva006/flight-management-app)
 **🔴 Live Demo:** [flight-management-app-eight.vercel.app](https://flight-management-app-eight.vercel.app)
@@ -7,7 +7,7 @@
 
 ## 📌 Project Summary
 
-Source Asia Flight Management App is a **production-grade, full-stack Progressive Web Application** built as part of the Source Asia Frontend Internship Technical Assignment. It simulates a real airline booking platform with end-to-end functionality:
+SkyBooker is a **production-grade, full-stack Progressive Web Application** built to practice and demonstrate production-grade concurrency handling, realtime features, and modern PWA architecture. It simulates a real airline booking platform with end-to-end functionality:
 
 - ✈️ **Flight search** — filter by origin, destination, date and passenger count across 5 routes with 30 days of seeded daily flights
 - 💺 **Interactive seat map** — visual Economy / Business / First class grid, updated live via WebSocket
@@ -46,8 +46,8 @@ These accounts are pre-confirmed in the live Supabase instance. No signup needed
 
 | # | Email | Password | Role |
 |---|---|---|---|
-| 1 | `demo@sourceasia.com` | `Demo@1234` | Primary demo user |
-| 2 | `reviewer@sourceasia.com` | `Review@1234` | Secondary user — use for concurrent booking tests |
+| 1 | `demo@example.com` | `Demo@1234` | Primary demo user |
+| 2 | `reviewer@example.com` | `Review@1234` | Secondary user — use for concurrent booking tests |
 
 > 💡 **Testing race conditions:** Open two browser tabs, log in with different accounts, and try to book the **same seat** on the **same flight** at the same time. The second request will be blocked at the database level and show a "Seat already taken" toast.
 
@@ -226,7 +226,7 @@ The booking flow spans multiple pages (search → select seat → passenger → 
 
 ## 🚧 Incomplete Features & Future Enhancements
 
-While the core functionality of a flight booking system is complete, the following features are not yet implemented due to the scope of the assignment:
+While the core functionality of a flight booking system is complete, the following features are not yet implemented due to the current scope of the project:
 
 - **Payment Gateway Integration:** The booking flow calculates pricing but does not integrate with a real payment provider (e.g., Stripe, Razorpay). Bookings are confirmed instantly.
 - **Email/SMS Notifications:** Users do not receive actual emails with their PNR or ticket. The ticket is only available to print/download within the app.
@@ -262,4 +262,4 @@ supabase/
 
 ---
 
-*Built by **Pranjal Kumar Verma** for Source Asia Frontend Internship — May 2026*
+*Built by **Pranjal Kumar Verma** — May 2026*

@@ -1,6 +1,6 @@
 {
-  "name": "Source Asia — Flight Management",
-  "short_name": "Source Asia",
+  "name": "SkyBooker — Flight Management",
+  "short_name": "SkyBooker",
   "description": "Search, book, and manage flights with real-time seat selection and instant PNR confirmation.",
   "start_url": "/",
   "scope": "/",
