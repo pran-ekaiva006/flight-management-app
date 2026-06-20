@@ -182,29 +182,11 @@ export function FlightSearchForm({
          : 'border-gray-300 focus:border-gray-500 focus:ring-gray-200 dark:border-gray-700 dark:focus:ring-gray-700'
      }`;
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (activeTab !== 'flight') {
-      e.preventDefault();
-      if (activeTab === 'hotel') {
-        toast.info(
-          '🏨 Hotel bookings coming soon in the next phase! Directing you to Flight Search for now.',
-        );
-      } else if (activeTab === 'restaurant') {
-        toast.info(
-          '🍴 Restaurant reservations coming soon! Directing you to Flight Search for now.',
-        );
-      } else if (activeTab === 'tour') {
-        toast.info(
-          '🗺️ Guided tours and activities coming soon! Directing you to Flight Search for now.',
-        );
-      }
-      setActiveTab('flight');
-    } else {
-      if (tripType === 'round-trip') {
-        toast.info(
-          'ℹ️ Round-trip search simulation active! Filtering outbound flights in results.',
-        );
-      }
+  const handleFormSubmit = () => {
+    if (tripType === 'round-trip') {
+      toast.info(
+        'ℹ️ Round-trip search simulation active! Filtering outbound flights in results.',
+      );
     }
   };
 
@@ -370,19 +352,19 @@ export function FlightSearchForm({
         )}
       </div>
 
-      <form
-        action={formAction}
-        onSubmit={handleFormSubmit}
-        className={compact ? 'space-y-4' : 'space-y-6'}
-        noValidate
-      >
-        {/* Global error fallback for screen readers */}
-        <div aria-live="polite" className="sr-only">
-          {state?.error && !state.fieldErrors ? state.error : ''}
-        </div>
+      {activeTab === 'flight' ? (
+        <form
+          action={formAction}
+          onSubmit={handleFormSubmit}
+          className={compact ? 'space-y-4' : 'space-y-6'}
+          noValidate
+        >
+          {/* Global error fallback for screen readers */}
+          <div aria-live="polite" className="sr-only">
+            {state?.error && !state.fieldErrors ? state.error : ''}
+          </div>
 
-        {/* Dynamic tabs inputs grid */}
-        {activeTab === 'flight' && (
+          {/* Dynamic tabs inputs grid */}
           <div
             className={`grid sm:grid-cols-2 ${
               tripType === 'round-trip' ? 'lg:grid-cols-5' : 'lg:grid-cols-4'
@@ -557,400 +539,48 @@ export function FlightSearchForm({
               />
             </InputGroup>
           </div>
-        )}
 
-        {activeTab === 'hotel' && (
+          {/* Divider + Submit */}
           <div
-            className={`grid sm:grid-cols-2 lg:grid-cols-4 ${compact ? 'gap-4' : 'gap-5'}`}
+            className={`flex flex-col items-stretch gap-4 border-t border-gray-200 dark:border-gray-700 sm:flex-row sm:items-center sm:justify-between ${
+              compact ? 'pt-4' : 'pt-5'
+            }`}
           >
-            <InputGroup
-              label="Destination"
-              htmlFor="hotel-destination"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="hotel-destination"
-                name="hotelDestination"
-                type="text"
-                placeholder="Where are you going?"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Check-in"
-              htmlFor="hotel-check-in"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="hotel-check-in"
-                name="hotelCheckIn"
-                type="date"
-                min={today}
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Check-out"
-              htmlFor="hotel-check-out"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="hotel-check-out"
-                name="hotelCheckOut"
-                type="date"
-                min={today}
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Guests"
-              htmlFor="hotel-guests"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="hotel-guests"
-                name="hotelGuests"
-                type="number"
-                min={1}
-                placeholder="2 guests"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-          </div>
-        )}
-
-        {activeTab === 'restaurant' && (
-          <div
-            className={`grid sm:grid-cols-2 lg:grid-cols-4 ${compact ? 'gap-4' : 'gap-5'}`}
-          >
-            <InputGroup
-              label="Restaurant or Cuisine"
-              htmlFor="rest-cuisine"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="rest-cuisine"
-                name="cuisine"
-                type="text"
-                placeholder="e.g. Italian in Tokyo"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Booking Date"
-              htmlFor="rest-date"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="rest-date"
-                name="restDate"
-                type="date"
-                min={today}
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Time"
-              htmlFor="rest-time"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="rest-time"
-                name="restTime"
-                type="time"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Guests"
-              htmlFor="rest-guests"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="rest-guests"
-                name="restGuests"
-                type="number"
-                min={1}
-                placeholder="4 people"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-          </div>
-        )}
-
-        {activeTab === 'tour' && (
-          <div
-            className={`grid sm:grid-cols-2 lg:grid-cols-4 ${compact ? 'gap-4' : 'gap-5'}`}
-          >
-            <InputGroup
-              label="Tour Destination"
-              htmlFor="tour-destination"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="tour-destination"
-                name="tourDestination"
-                type="text"
-                placeholder="e.g. Grand Canyon"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Start Date"
-              htmlFor="tour-date"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="tour-date"
-                name="tourDate"
-                type="date"
-                min={today}
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Duration"
-              htmlFor="tour-duration"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="tour-duration"
-                name="tourDuration"
-                type="text"
-                placeholder="e.g. 3 days"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-
-            <InputGroup
-              label="Group Size"
-              htmlFor="tour-size"
-              compact={compact}
-              icon={
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-              }
-            >
-              <input
-                id="tour-size"
-                name="tourSize"
-                type="number"
-                min={1}
-                placeholder="5 people"
-                className={inputClasses(false)}
-              />
-            </InputGroup>
-          </div>
-        )}
-
-        {/* Divider + Submit */}
-        <div
-          className={`flex flex-col items-stretch gap-4 border-t border-gray-200 dark:border-gray-700 sm:flex-row sm:items-center sm:justify-between ${
-            compact ? 'pt-4' : 'pt-5'
-          }`}
-        >
-          {activeTab === 'flight' ? (
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Search across all available routes and dates (Cabin:{' '}
               <span className="capitalize">{cabinClass}</span>)
             </p>
-          ) : (
-            <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
-              Search the best {activeTab} deals for your trip
+            <SearchButton />
+          </div>
+        </form>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-12 px-4 text-center space-y-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+          <div className="text-4xl animate-bounce">
+            {activeTab === 'hotel'
+              ? '🏨'
+              : activeTab === 'restaurant'
+                ? '🍴'
+                : '🗺️'}
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-base font-bold capitalize text-gray-900 dark:text-white">
+              {activeTab} Bookings Coming Soon!
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm leading-relaxed">
+              We are working hard to build the best {activeTab} rates for your
+              travel needs. This feature will launch in the next version of
+              SkyBooker!
             </p>
-          )}
-          <SearchButton />
+          </div>
+          <button
+            type="button"
+            onClick={() => setActiveTab('flight')}
+            className="px-4 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-md animate-pulse"
+          >
+            Return to Flight Booking
+          </button>
         </div>
-      </form>
+      )}
     </div>
   );
 }
