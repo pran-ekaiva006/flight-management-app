@@ -20,13 +20,22 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   // ─── Logged-in: show personalised dashboard ───────────
   if (user) {
-    const [{ count: flightCount }, { data: bookings }] = await Promise.all([
+    const [
+      { count: flightCount },
+      { data: bookings },
+      { data: flightRoutes },
+    ] = await Promise.all([
       supabase.from('flights').select('*', { count: 'exact', head: true }),
       supabase.from('bookings').select('id, status').eq('user_id', user.id),
+      supabase.from('flights').select('origin, destination'),
     ]);
 
     const activeBookings =
       bookings?.filter((b) => b.status === 'confirmed').length || 0;
+
+    const uniqueRoutes = new Set(
+      flightRoutes?.map((f) => `${f.origin.toUpperCase()}-${f.destination.toUpperCase()}`) || []
+    ).size;
 
     return (
       <div className="space-y-8">
@@ -143,7 +152,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  4
+                  {uniqueRoutes}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Routes available

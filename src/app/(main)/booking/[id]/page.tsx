@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { PageHeader } from '@/components/shared/page-header';
 import { fetchSeatsForFlight } from '@/features/seats/services/fetch-seats';
 import { BookingClient } from './booking-client';
@@ -21,19 +22,104 @@ export default async function BookingPage({
 }: BookingPageProps) {
   const supabase = await createClient();
 
-  // Fetch flight details
-  const { data: flight, error } = await supabase
-    .from('flights')
-    .select('*')
-    .eq('id', params.id)
-    .single();
+  let flight = null;
+  let flightId = params.id;
 
-  if (error || !flight) {
-    notFound();
+  // Just-in-time persistence for dynamic AirLabs search results
+  if (flightId.startsWith('airlabs__')) {
+    const parts = flightId.split('__');
+    const flight_no = parts[1];
+    const origin = parts[2];
+    const destination = parts[3];
+    const departs_at = parts[4];
+    const arrives_at = parts[5];
+    const base_price_str = parts[6];
+    const external_ref = parts[7];
+
+    if (
+      !flight_no ||
+      !origin ||
+      !destination ||
+      !departs_at ||
+      !arrives_at ||
+      !base_price_str ||
+      !external_ref
+    ) {
+      notFound();
+    }
+
+    const base_price = parseFloat(base_price_str) || 5000;
+
+    const admin = createAdminClient();
+
+    // Deduplicate: check if this flight was already persisted
+    const { data: existing } = await admin
+      .from('flights')
+      .select('*')
+      .eq('flight_no', flight_no)
+      .eq('departs_at', departs_at)
+      .maybeSingle();
+
+    if (existing) {
+      flight = existing;
+      flightId = existing.id;
+    } else {
+      // Insert flight on the fly
+      const { data: inserted, error: insertError } = await admin
+        .from('flights')
+        .insert({
+          flight_no,
+          origin,
+          destination,
+          departs_at,
+          arrives_at,
+          aircraft_type: 'Unknown Aircraft',
+          base_price,
+          source: 'airlabs',
+          external_ref,
+        })
+        .select('*')
+        .single();
+
+      if (insertError || !inserted) {
+        console.error(
+          '[BookingPage] Failed to insert flight just-in-time:',
+          insertError,
+        );
+        notFound();
+      }
+
+      // Generate seat map for the inserted flight
+      const { error: seatMapError } = await admin.rpc('generate_seat_map', {
+        p_flight_id: inserted.id,
+      });
+
+      if (seatMapError) {
+        console.warn(
+          '[BookingPage] Failed to generate seat map just-in-time:',
+          seatMapError,
+        );
+      }
+
+      flight = inserted;
+      flightId = inserted.id;
+    }
+  } else {
+    // Normal database query for pre-existing flights
+    const { data, error } = await supabase
+      .from('flights')
+      .select('*')
+      .eq('id', flightId)
+      .single();
+
+    if (error || !data) {
+      notFound();
+    }
+    flight = data;
   }
 
   // Fetch all seats for this flight
-  const seats = await fetchSeatsForFlight(params.id);
+  const seats = await fetchSeatsForFlight(flightId);
 
   const passengers = Number(searchParams.passengers) || 1;
 
@@ -140,7 +226,7 @@ export default async function BookingPage({
 
       {/* Interactive seat map (client component) */}
       <BookingClient
-        flightId={params.id}
+        flightId={flightId}
         initialSeats={seats}
         basePrice={flight.base_price}
         passengers={passengers}

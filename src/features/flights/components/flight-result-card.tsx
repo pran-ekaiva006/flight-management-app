@@ -93,7 +93,7 @@ export const FlightResultCard = memo(function FlightResultCard({
                 <p className="text-sm font-bold text-gray-900 dark:text-white">
                   {flight.flight_no}
                 </p>
-                {flight.source === 'amadeus' && (
+                {flight.source === 'airlabs' && (
                   <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-medium text-sky-600 dark:bg-sky-950 dark:text-sky-400">
                     Live fare
                   </span>
