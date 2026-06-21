@@ -20,14 +20,14 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="relative w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold
-                 text-white shadow-sm transition-all hover:bg-blue-700
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900
-                 disabled:cursor-not-allowed disabled:opacity-60"
+      className="relative w-full rounded-xl bg-primary px-4 py-3 text-sm font-bold
+                 text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-600 hover:-translate-y-0.5 active:translate-y-0
+                 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-card
+                 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
     >
       {pending ? (
         <span className="flex items-center justify-center gap-2">
-          <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+          <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
             <circle
               className="opacity-25"
               cx="12"
@@ -94,10 +94,10 @@ function DemoPanelButton({ onClick }: { onClick: () => void }) {
       type="button"
       disabled={pending}
       onClick={onClick}
-      className="mt-3 w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold
-                 text-white transition-all hover:bg-blue-700
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900
-                 disabled:cursor-not-allowed disabled:opacity-60"
+      className="mt-4 w-full rounded-xl bg-accent px-4 py-3 text-sm font-bold
+                 text-white transition-all shadow-md hover:bg-accent-600 hover:-translate-y-0.5 active:translate-y-0
+                 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-card
+                 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
     >
       {pending ? 'Signing in…' : 'Continue as Demo User'}
     </button>,
@@ -113,7 +113,7 @@ function EyeIcon({ open }: { open: boolean }) {
         className="h-4 w-4"
         fill="none"
         viewBox="0 0 24 24"
-        strokeWidth={1.5}
+        strokeWidth={2}
         stroke="currentColor"
       >
         <path
@@ -129,7 +129,7 @@ function EyeIcon({ open }: { open: boolean }) {
       className="h-4 w-4"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={2}
       stroke="currentColor"
     >
       <path
@@ -173,7 +173,7 @@ export function LoginForm() {
   };
 
   return (
-    <form ref={formRef} action={formAction} className="space-y-5" noValidate>
+    <form ref={formRef} action={formAction} className="space-y-4" noValidate>
       {/* Error message fallback for screen readers */}
       <div aria-live="polite" className="sr-only">
         {state?.error}
@@ -183,17 +183,17 @@ export function LoginForm() {
       <div className="space-y-1.5">
         <label
           htmlFor="login-email"
-          className="block text-sm font-medium text-gray-300"
+          className="block text-xs font-bold uppercase tracking-wider text-muted"
         >
           Email
         </label>
         <div className="relative">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
             <svg
-              className="h-4 w-4 text-gray-500"
+              className="h-4 w-4 text-muted"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth={2}
               stroke="currentColor"
             >
               <path
@@ -211,9 +211,9 @@ export function LoginForm() {
             required
             aria-invalid={state?.error ? 'true' : undefined}
             placeholder="you@example.com"
-            className="w-full rounded-xl border border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-sm
-                       text-white shadow-sm transition-all placeholder:text-gray-500
-                       focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full rounded-xl border border-border/60 bg-surface py-3 pl-11 pr-4 text-sm font-medium
+                       text-text shadow-sm transition-all placeholder:text-muted/60
+                       focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
       </div>
@@ -222,17 +222,17 @@ export function LoginForm() {
       <div className="space-y-1.5">
         <label
           htmlFor="login-password"
-          className="block text-sm font-medium text-gray-300"
+          className="block text-xs font-bold uppercase tracking-wider text-muted"
         >
           Password
         </label>
         <div className="relative">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
             <svg
-              className="h-4 w-4 text-gray-500"
+              className="h-4 w-4 text-muted"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth={2}
               stroke="currentColor"
             >
               <path
@@ -250,16 +250,16 @@ export function LoginForm() {
             required
             aria-invalid={state?.error ? 'true' : undefined}
             placeholder="••••••••"
-            className="w-full rounded-xl border border-gray-700 bg-gray-800 py-3 pl-10 pr-11 text-sm
-                       text-white shadow-sm transition-all placeholder:text-gray-500
-                       focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full rounded-xl border border-border/60 bg-surface py-3 pl-11 pr-11 text-sm font-medium
+                       text-text shadow-sm transition-all placeholder:text-muted/60
+                       focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
-            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-500
-                       transition-colors hover:text-gray-300 focus:outline-none focus:text-gray-300"
+            className="absolute inset-y-0 right-0 flex items-center pr-4 text-muted
+                       transition-colors hover:text-text focus:outline-none focus:text-text"
           >
             <EyeIcon open={showPassword} />
           </button>
@@ -267,34 +267,34 @@ export function LoginForm() {
       </div>
 
       {/* Primary submit */}
-      <SubmitButton />
+      <div className="pt-1">
+        <SubmitButton />
+      </div>
 
       {/* Register / Forgot Password links */}
-      <div className="flex flex-col items-center justify-between gap-2 xs:flex-row">
-        <p className="text-sm text-gray-400">
+      <div className="flex flex-col items-center justify-between gap-3 xs:flex-row pt-1">
+        <p className="text-sm font-medium text-muted">
           New User?{' '}
           <Link
             href="/signup"
-            className="font-medium text-blue-400 transition-colors hover:text-blue-300"
+            className="font-bold text-primary transition-colors hover:text-primary-600"
           >
             Register
           </Link>
         </p>
-        {/* Option (b): inert link — Supabase password reset requires email
-            provider config. Left as a visible link pointing to a placeholder. */}
         <Link
-          href={"/forgot-password" as any}
-          className="text-sm font-medium text-blue-400 transition-colors hover:text-blue-300"
+          href={'/forgot-password' as any}
+          className="text-sm font-bold text-primary transition-colors hover:text-primary-600"
         >
           Forgot Password?
         </Link>
       </div>
 
       {/* ─── Divider ───────────────────────────────────── */}
-      <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-gray-700" />
-        <span className="text-xs font-medium text-gray-500">or</span>
-        <div className="h-px flex-1 bg-gray-700" />
+      <div className="flex items-center gap-4 py-1.5">
+        <div className="h-px flex-1 bg-border/40" />
+        <span className="text-xs font-bold uppercase tracking-widest text-muted">or</span>
+        <div className="h-px flex-1 bg-border/40" />
       </div>
 
       {/* ─── Google Sign-In ────────────────────────────── */}
@@ -307,31 +307,30 @@ export function LoginForm() {
             // redirect() throws NEXT_REDIRECT — this is expected
           }
         }}
-        className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-700 bg-gray-800 px-4 py-3
-                   text-sm font-semibold text-gray-200 transition-all hover:bg-gray-750 hover:border-gray-600
-                   focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-2 focus:ring-offset-gray-900"
+        className="flex w-full items-center justify-center gap-3 rounded-xl border border-border/60 bg-surface px-4 py-3
+                   text-sm font-bold text-text transition-all hover:bg-surface/80 hover:border-border hover:shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-border focus:ring-offset-2 focus:ring-offset-card"
       >
         <GoogleLogo />
         Continue with Google
       </button>
 
       {/* ─── Legal microcopy ───────────────────────────── */}
-      <p className="text-center text-xs leading-relaxed text-gray-500">
+      <p className="text-center text-[10px] font-medium leading-relaxed text-muted uppercase tracking-wider pt-1">
         By continuing, you agree to SkyBooker&apos;s{' '}
         <Link
-          href={"/terms" as any}
-          className="underline decoration-gray-600 underline-offset-2 transition-colors hover:text-gray-400"
+          href={'/terms' as any}
+          className="underline decoration-border underline-offset-4 transition-colors hover:text-text"
         >
-          Terms of Service
+          Terms
         </Link>{' '}
         and{' '}
         <Link
-          href={"/privacy" as any}
-          className="underline decoration-gray-600 underline-offset-2 transition-colors hover:text-gray-400"
+          href={'/privacy' as any}
+          className="underline decoration-border underline-offset-4 transition-colors hover:text-text"
         >
-          Privacy Policy
+          Privacy
         </Link>
-        .
       </p>
 
       {/* ─── Demo Panel Button (rendered via portal into #demo-panel) */}

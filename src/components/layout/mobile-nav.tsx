@@ -9,7 +9,7 @@ export function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200/60 bg-white/90 backdrop-blur-xl md:hidden dark:border-gray-800/60 dark:bg-gray-950/90">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/40 bg-surface/90 backdrop-blur-xl md:hidden">
       <div className="mx-auto flex h-16 max-w-md items-center justify-around px-2">
         {NAV_ITEMS.filter((item) => {
           if (!isLoggedIn) {
@@ -24,10 +24,10 @@ export function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex flex-col items-center gap-0.5 rounded-xl px-4 py-1.5 transition-all ${
+              className={`relative flex flex-col items-center justify-center min-h-[44px] min-w-[44px] gap-0.5 rounded-xl px-4 py-1.5 transition-all ${
                 isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'
+                  ? 'text-primary'
+                  : 'text-muted hover:text-text'
               }`}
             >
               <NavIcon
@@ -36,7 +36,7 @@ export function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
               />
               <span className="text-[10px] font-medium">{item.label}</span>
               {isActive && (
-                <span className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary-500" />
+                <span className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary" />
               )}
             </Link>
           );

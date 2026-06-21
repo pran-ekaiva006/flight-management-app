@@ -23,7 +23,7 @@ export function FlightSortControls() {
     <div className="flex items-center gap-2">
       <label
         htmlFor="sort-flights"
-        className="text-xs font-medium text-gray-500 dark:text-gray-400"
+        className="text-xs font-bold text-muted uppercase tracking-wider"
       >
         Sort by
       </label>
@@ -31,14 +31,13 @@ export function FlightSortControls() {
         id="sort-flights"
         value={currentSort}
         onChange={handleSortChange}
-        className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium
-                   text-gray-700 shadow-sm transition-colors
-                   focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200
-                   dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300
-                   dark:focus:ring-gray-700"
+        className="rounded-lg border border-border/40 bg-surface px-3 py-1.5 text-xs font-medium
+                   text-text shadow-sm transition-colors cursor-pointer
+                   focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20
+                   hover:border-border"
       >
         {Object.entries(SORT_LABELS).map(([value, label]) => (
-          <option key={value} value={value}>
+          <option key={value} value={value} className="bg-card text-text font-medium">
             {label}
           </option>
         ))}
