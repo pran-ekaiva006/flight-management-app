@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FlightSearchForm } from '@/features/flights/components/flight-search-form';
 import { AnimatedHeroBackground } from '@/components/marketing/animated-hero-background';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
-import { Search, Armchair, CheckCircle2, Tag, Headset, CalendarClock, ShieldCheck } from 'lucide-react';
+import { Search, Armchair, CheckCircle2, Tag, Headset, CalendarClock, ShieldCheck, PlaneTakeoff, Map, Ticket, Compass, Navigation, ArrowRight, Globe, QrCode } from 'lucide-react';
 
 
 interface HomePageProps {
@@ -42,114 +42,156 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
     return (
       <div className="space-y-8">
-        {/* Welcome Section */}
-        <div className="rounded-3xl bg-gradient-to-br from-primary to-primary-700 p-6 text-white shadow-xl shadow-primary/20 sm:p-8">
-          <p className="text-sm font-medium text-white/70">Welcome back,</p>
-          <h1 className="mt-1 text-2xl font-bold sm:text-3xl font-heading">
-            {user.user_metadata?.full_name || user.email?.split('@')[0]}! ✈️
-          </h1>
-          <p className="mt-2 text-sm text-white/80">
-            Ready to explore the skies? Search flights and book your next
-            adventure.
-          </p>
-          <Link
-            href="/search"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-2.5 text-sm font-semibold text-primary shadow-lg transition-all hover:bg-white/90 hover:shadow-xl"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
+        {/* Modern Travel Hero */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-surface to-surface border border-border/40 p-8 sm:p-10 shadow-sm">
+          {/* Detailed flight path graphic background */}
+          <div className="absolute right-0 top-0 w-full h-full opacity-[0.04] dark:opacity-[0.06] pointer-events-none transition-transform duration-1000 hover:scale-105 flex justify-end overflow-hidden">
+            <svg viewBox="0 0 400 200" className="h-full text-primary fill-none stroke-current w-[150%] sm:w-auto" strokeWidth="1" strokeDasharray="4 4">
+              <path d="M 50 150 Q 200 50 350 100" />
+              <circle cx="50" cy="150" r="4" className="fill-current" />
+              <circle cx="350" cy="100" r="4" className="fill-current" />
+              <path d="M 100 180 Q 250 80 380 140" strokeDasharray="2 6" className="opacity-50" />
             </svg>
-            Search Flights
-          </Link>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{flightCount || 0}</p>
-                <p className="text-xs text-muted">Available flights</p>
-              </div>
-            </div>
+            <PlaneTakeoff className="absolute right-[10%] top-[35%] w-24 h-24 text-primary opacity-10 -rotate-12" />
           </div>
-
-          <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{activeBookings}</p>
-                <p className="text-xs text-muted">Active bookings</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{uniqueRoutes}</p>
-                <p className="text-xs text-muted">Routes available</p>
-              </div>
-            </div>
+          
+          <div className="relative z-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+              <Globe className="h-4 w-4" /> SkyBooker Travel
+            </p>
+            <h1 className="text-3xl font-extrabold sm:text-4xl font-heading text-text tracking-tight">
+              Welcome back, {user.user_metadata?.full_name || user.email?.split('@')[0]}
+            </h1>
+            <p className="mt-4 max-w-2xl text-base text-muted font-medium">
+              {activeBookings > 0 
+                ? `You have ${activeBookings} upcoming flight reservation${activeBookings > 1 ? 's' : ''}. Your next adventure awaits.`
+                : "The world is waiting. Where will you explore next?"}
+            </p>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Link
-            href="/search"
-            className="group flex items-center gap-4 rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        {/* Primary Content (Bento Grid) */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          
+          {/* Quick Search Action - Made MORE prominent */}
+          <Link href="/search" className="lg:col-span-1 group relative overflow-hidden rounded-3xl bg-primary p-8 shadow-lg shadow-primary/20 transition-all hover:bg-primary-600 hover:-translate-y-1 flex flex-col justify-between">
+            <div className="absolute right-0 top-0 w-full h-full opacity-10 pointer-events-none transition-transform group-hover:scale-110 group-hover:rotate-6 duration-700 flex items-center justify-end">
+              <svg viewBox="0 0 100 100" className="w-64 h-64 fill-white translate-x-1/4 -translate-y-1/4">
+                 <path d="M50 15a35 35 0 1 0 0 70 35 35 0 1 0 0-70z" opacity="0.5"/>
               </svg>
             </div>
-            <div>
-              <h3 className="font-semibold text-text">Search Flights</h3>
-              <p className="text-sm text-muted">Find and book your next flight</p>
+            <div className="relative z-10">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-primary shadow-md transition-transform duration-500 group-hover:scale-110">
+                <Search className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-extrabold font-heading text-white tracking-tight">Find Flights</h3>
+              <p className="mt-3 text-sm text-white/80 font-medium">
+                Search our global network and book your next destination instantly.
+              </p>
+            </div>
+            <div className="mt-8 flex items-center text-sm font-bold text-white transition-all relative z-10">
+              <span className="group-hover:mr-2 transition-all">Start searching</span> <ArrowRight className="h-4 w-4" />
             </div>
           </Link>
 
-          <Link
-            href="/bookings"
-            className="group flex items-center gap-4 rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent transition-colors group-hover:bg-accent/20">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-              </svg>
+          {/* Upcoming Trip / Empty State */}
+          <div className="lg:col-span-2 rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-8 shadow-sm flex flex-col justify-center transition-all hover:bg-surface/80 group relative overflow-hidden">
+            {/* Background Map Graphic */}
+            <Map className="absolute -right-10 -bottom-10 w-64 h-64 text-primary opacity-[0.02] dark:opacity-[0.04] pointer-events-none" />
+            
+            {activeBookings > 0 ? (
+              <div className="space-y-6 relative z-10">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold font-heading text-text flex items-center gap-2">
+                    <Ticket className="h-5 w-5 text-primary" /> Active Itinerary
+                  </h2>
+                  <Link href="/bookings" className="text-sm font-bold text-primary hover:underline flex items-center gap-1">
+                    Manage bookings <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+                
+                {/* Boarding Pass Style Card */}
+                <div className="relative flex flex-col sm:flex-row items-center gap-6 rounded-2xl bg-background border border-border/40 p-0 shadow-sm overflow-hidden">
+                  {/* Left edge decoration */}
+                  <div className="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+                  
+                  <div className="flex-1 space-y-4 w-full p-6 pl-8">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Reservation Status</p>
+                        <p className="mt-1.5 inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
+                          Confirmed
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Flights</p>
+                        <p className="mt-1 text-lg font-bold text-text">{activeBookings} Booked</p>
+                      </div>
+                    </div>
+                    
+                    <div className="h-px w-full border-t-2 border-dashed border-border/60 my-2" />
+                    
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-muted font-medium max-w-sm">
+                        Your flight reservations are confirmed. Access your full itinerary to view departure details and seat assignments.
+                      </p>
+                      <QrCode className="h-10 w-10 text-muted opacity-40 hidden sm:block" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center space-y-6 relative z-10">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-500 group-hover:scale-110">
+                  <Compass className="h-10 w-10" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold font-heading text-text">Ready for departure?</h2>
+                  <p className="mt-3 text-sm text-muted font-medium max-w-sm mx-auto">
+                    You have no active flight reservations. The perfect getaway is just a search away.
+                  </p>
+                </div>
+                <Link
+                  href="/search"
+                  className="inline-flex items-center gap-2 rounded-xl bg-surface border border-border px-6 py-3 text-sm font-bold text-text shadow-sm transition-all hover:bg-border/50 hover:shadow-md"
+                >
+                  <Map className="h-4 w-4 text-primary" /> Explore Destinations
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Secondary Content (Platform Overview) */}
+        <div>
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted mb-5 ml-1">Explore the World</h3>
+          <div className="grid gap-6 sm:grid-cols-2">
+            
+            {/* Available Routes */}
+            <div className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 transition-all relative overflow-hidden">
+              <Globe className="absolute -right-4 -bottom-4 w-24 h-24 text-secondary opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:rotate-12 duration-700" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10 text-secondary border border-secondary/20 transition-transform duration-500 group-hover:scale-110">
+                <Navigation className="h-6 w-6" />
+              </div>
+              <div className="relative z-10">
+                <p className="text-3xl font-black tracking-tight text-text font-heading">{uniqueRoutes}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted mt-1.5">Global Destinations</p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-text">My Bookings</h3>
-              <p className="text-sm text-muted">View and manage your bookings</p>
+
+            {/* Total Flights */}
+            <div className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 transition-all relative overflow-hidden">
+              <PlaneTakeoff className="absolute -right-4 -bottom-4 w-24 h-24 text-accent opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:-rotate-12 duration-700" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent border border-accent/20 transition-transform duration-500 group-hover:scale-110">
+                <Ticket className="h-6 w-6" />
+              </div>
+              <div className="relative z-10">
+                <p className="text-3xl font-black tracking-tight text-text font-heading">{flightCount || 0}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted mt-1.5">Daily Departures</p>
+              </div>
             </div>
-          </Link>
+
+          </div>
         </div>
       </div>
     );

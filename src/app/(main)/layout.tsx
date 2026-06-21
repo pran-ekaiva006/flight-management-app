@@ -21,7 +21,7 @@ export default async function MainLayout({
         {children}
       </main>
 
-      <FooterWrapper />
+      <FooterWrapper isLoggedIn={!!user} />
       <MobileNav isLoggedIn={!!user} />
     </div>
   );

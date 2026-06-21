@@ -3,10 +3,10 @@
 import { usePathname } from 'next/navigation';
 import { Footer } from './footer';
 
-export function FooterWrapper() {
+export function FooterWrapper({ isLoggedIn }: { isLoggedIn?: boolean }) {
   const pathname = usePathname();
   
-  if (pathname !== '/') return null;
+  if (pathname !== '/' || isLoggedIn) return null;
   
   return <Footer />;
 }
