@@ -246,21 +246,26 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </p>
           </div>
 
-          {/* Overlapping Flight Search Widget with Glass Tabs */}
-          <div className="w-full max-w-5xl mx-auto mt-2">
-            <div className="rounded-3xl border border-white/20 bg-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-              <FlightSearchForm
-                compact={true}
-                hideFilters={true}
-                defaultValues={{
-                  origin: searchParams?.origin,
-                  destination: searchParams?.destination,
-                  departureDate: searchParams?.departureDate,
-                  passengers: searchParams?.passengers,
-                }}
+          {/* Action button to explore flights */}
+          <Link
+            href="/search"
+            className="mt-6 inline-flex items-center gap-3 rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-sky-950 hover:scale-[1.02]"
+          >
+            Explore Flights
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
               />
-            </div>
-          </div>
+            </svg>
+          </Link>
 
           {/* Horizontal glass metrics ribbon below search card */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-white/95 relative z-10 w-full max-w-5xl mx-auto px-4">
