@@ -23,7 +23,7 @@ export default async function BookingPage({
   const supabase = await createClient();
 
   let flight = null;
-  let flightId = params.id;
+  let flightId = decodeURIComponent(params.id);
 
   // Just-in-time persistence for dynamic AirLabs search results
   if (flightId.startsWith('airlabs__')) {
