@@ -230,9 +230,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   // ─── Guest: show public landing page ──────────────────
   return (
-    <div className="w-[100vw] relative left-1/2 right-1/2 -translate-x-1/2 -mt-[5.5rem] -mb-6 min-h-screen bg-[url('/images/skybooker_hero_bg.png')] bg-cover bg-center bg-no-repeat bg-fixed flex flex-col pb-24 text-white">
+    <div className="w-[100vw] relative left-1/2 right-1/2 -translate-x-1/2 -mt-[5.5rem] -mb-6 min-h-screen bg-[url('/images/skybooker_sky_blue_3d_bg.png')] bg-cover bg-center bg-no-repeat bg-fixed flex flex-col pb-24 text-white">
       {/* Semi-transparent dark/blue gradient overlay for contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-sky-950/20 via-sky-950/15 to-sky-950/40 backdrop-blur-[1px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-sky-900/40 via-sky-900/10 to-sky-950/60 backdrop-blur-[0.5px] pointer-events-none" />
 
       {/* Content Column */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start pt-[5.5rem]">
@@ -331,7 +331,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
         {/* Feature Highlights section in matching glass design */}
         <div className="grid gap-6 sm:grid-cols-3 mt-4 pb-12 scroll-fade">
-          <div className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex flex-col justify-start">
+          <div className="card-3d rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-lg flex flex-col justify-start">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white">
               <svg
                 className="h-5 w-5"
@@ -354,7 +354,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex flex-col justify-start">
+          <div className="card-3d rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-lg flex flex-col justify-start">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white">
               <svg
                 className="h-5 w-5"
@@ -377,7 +377,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex flex-col justify-start">
+          <div className="card-3d rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-lg flex flex-col justify-start">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white">
               <svg
                 className="h-5 w-5"
@@ -437,7 +437,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-md transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between"
+                className="card-3d rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-md flex flex-col justify-between"
               >
                 <div className="text-3xl mb-4">{item.icon}</div>
                 <div>
@@ -488,7 +488,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             ].map((dest) => (
               <div
                 key={dest.code}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:shadow-xl hover:scale-[1.02]"
+                className="card-3d group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md"
               >
                 {/* Decorative Gradient Top Block */}
                 <div className={`h-32 bg-gradient-to-tr ${dest.gradient} border-b relative flex items-center justify-between p-6 overflow-hidden`}>
@@ -612,7 +612,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             ].map((review, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col justify-between space-y-4 shadow-lg hover:bg-white/10 transition-all duration-300"
+                className="card-3d rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col justify-between space-y-4 shadow-lg"
               >
                 <div className="flex items-center gap-3">
                   <img
