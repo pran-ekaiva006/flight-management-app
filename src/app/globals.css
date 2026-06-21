@@ -23,3 +23,26 @@ body {
     text-wrap: balance;
   }
 }
+
+/* ─── Scroll-driven entry animations ──────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes entry-fade {
+      from {
+        opacity: 0.1;
+        transform: translateY(40px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .scroll-fade {
+      animation: entry-fade auto linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 40%;
+    }
+  }
+}
+

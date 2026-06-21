@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { FlightSearchForm } from '@/features/flights/components/flight-search-form';
 import { HeroIllustration } from '@/components/marketing/hero-illustration';
+import { NewsletterForm } from '@/components/marketing/newsletter-form';
+
 
 interface HomePageProps {
   searchParams: {
@@ -307,8 +309,28 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         </div>
 
+        {/* Trusted Partners Banner */}
+        <div className="w-full mt-10 mb-6 py-6 border-t border-b border-white/10 bg-white/[0.02] backdrop-blur-md relative overflow-hidden flex flex-col items-center justify-center rounded-2xl scroll-fade">
+          <p className="text-[10px] font-bold text-sky-300 tracking-widest uppercase mb-4 opacity-80">Supported Global Airlines</p>
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 px-6">
+            {[
+              { name: 'Singapore Airlines', logo: '🇸🇬' },
+              { name: 'Emirates', logo: '🇦🇪' },
+              { name: 'Qatar Airways', logo: '🇶🇦' },
+              { name: 'Lufthansa', logo: '🇩🇪' },
+              { name: 'British Airways', logo: '🇬🇧' },
+              { name: 'Delta Air Lines', logo: '🇺🇸' },
+            ].map((airline) => (
+              <div key={airline.name} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-white/70 hover:text-white hover:bg-white/10 transition-all cursor-default">
+                <span>{airline.logo}</span>
+                <span className="font-semibold tracking-wide">{airline.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Feature Highlights section in matching glass design */}
-        <div className="grid gap-6 sm:grid-cols-3 mt-4 pb-12">
+        <div className="grid gap-6 sm:grid-cols-3 mt-4 pb-12 scroll-fade">
           <div className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex flex-col justify-start">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-white">
               <svg
@@ -378,6 +400,351 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </p>
           </div>
         </div>
+
+        {/* Why Choose SkyBooker Grid */}
+        <div className="mt-20 space-y-8 scroll-fade">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              Why Fly With SkyBooker?
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 font-medium">
+              We combine cutting-edge transactional security with premium customer travel guarantees.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                title: 'Best Price Guarantee',
+                desc: 'Find a cheaper published fare for the same route and cabin? We will match it and refund the difference.',
+                icon: '🏷️',
+              },
+              {
+                title: '24/7 Premium Support',
+                desc: 'Direct access to our dedicated customer support desk. Real humans, not bots, ready to resolve issues.',
+                icon: '📞',
+              },
+              {
+                title: 'Zero Reschedule Fees',
+                desc: 'Change your travel date up to 24 hours before departure with zero added rescheduling penalties.',
+                icon: '🔄',
+              },
+              {
+                title: 'Secure Flight Ticketing',
+                desc: 'Fully encrypted transaction pathways coupled with instantaneous PNR registration at the airline.',
+                icon: '🛡️',
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md p-6 shadow-md transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between"
+              >
+                <div className="text-3xl mb-4">{item.icon}</div>
+                <div>
+                  <h4 className="font-bold text-white text-base">{item.title}</h4>
+                  <p className="mt-2 text-xs text-gray-300 leading-relaxed font-light">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Destination Section */}
+        <div className="mt-24 space-y-8 scroll-fade">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              Trending Destinations
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 font-medium">
+              Explore hot schedules and live fares to our most popular connection hubs.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                city: 'New Delhi',
+                code: 'DEL',
+                tagline: 'Capital Hub & Culture',
+                price: '₹3,250',
+                gradient: 'from-orange-500/30 to-rose-600/30 border-orange-500/20',
+              },
+              {
+                city: 'Kolkata',
+                code: 'CCU',
+                tagline: 'City of Joy & Heritage',
+                price: '₹4,100',
+                gradient: 'from-violet-600/30 to-indigo-600/30 border-indigo-500/20',
+              },
+              {
+                city: 'Mumbai',
+                code: 'BOM',
+                tagline: 'Gateway of India & Finance',
+                price: '₹3,800',
+                gradient: 'from-emerald-500/30 to-teal-600/30 border-emerald-500/20',
+              },
+            ].map((dest) => (
+              <div
+                key={dest.code}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:shadow-xl hover:scale-[1.02]"
+              >
+                {/* Decorative Gradient Top Block */}
+                <div className={`h-32 bg-gradient-to-tr ${dest.gradient} border-b relative flex items-center justify-between p-6 overflow-hidden`}>
+                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
+                  <div className="z-10">
+                    <p className="text-xs font-semibold text-white/70 uppercase tracking-widest">Flight Deal</p>
+                    <h4 className="text-xl font-bold text-white mt-0.5">{dest.city}</h4>
+                  </div>
+                  <span className="z-10 text-4xl font-extrabold text-white/15 tracking-tighter select-none">{dest.code}</span>
+                </div>
+                <div className="p-5 space-y-4">
+                  <p className="text-xs text-gray-300">{dest.tagline}</p>
+                  <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                    <div>
+                      <p className="text-[10px] text-gray-400">One-way starts from</p>
+                      <p className="text-lg font-extrabold text-white">{dest.price}</p>
+                    </div>
+                    <Link
+                      href={`/search?origin=Delhi&destination=${dest.city}&departureDate=${new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0]}&passengers=1`}
+                      className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-white transition-all hover:bg-white/20 hover:scale-105"
+                    >
+                      Book Now
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* How It Works Section */}
+        <div className="mt-28 space-y-10 scroll-fade">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              How SkyBooker Works
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 font-medium">
+              A seamless and completely safe experience from booking to take-off.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Visual connecting line for desktop */}
+            <div className="absolute top-1/2 left-4 right-4 hidden h-0.5 -translate-y-1/2 bg-white/10 sm:block" />
+
+            <div className="grid gap-8 sm:grid-cols-3 relative z-10">
+              {[
+                {
+                  step: '01',
+                  title: 'Explore Live Schedules',
+                  desc: 'Search direct flight schedules fetched in real-time from our global schedules provider.',
+                  icon: '🔍',
+                },
+                {
+                  step: '02',
+                  title: 'Select Seat Grid',
+                  desc: 'Pick your preferred seat class (Economy, Business, First) with absolute double-booking protection.',
+                  icon: '💺',
+                },
+                {
+                  step: '03',
+                  title: 'Instant Confirmation',
+                  desc: 'Get your transactional PNR instantly. View, manage, or reschedule bookings from your dashboard.',
+                  icon: '✅',
+                },
+              ].map((item) => (
+                <div
+                  key={item.step}
+                  className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 text-center space-y-3 transition-all hover:bg-white/10"
+                >
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/20 border border-blue-500/30 text-2xl text-white">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-blue-400 tracking-widest uppercase">Step {item.step}</span>
+                    <h3 className="text-lg font-bold text-white mt-1">{item.title}</h3>
+                  </div>
+                  <p className="text-xs text-gray-300 leading-relaxed font-light font-sans">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Client Reviews / Testimonials Section */}
+        <div className="mt-28 space-y-8 scroll-fade">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              Loved by Frequent Flyers
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 font-medium">
+              See what corporate travel managers, solo explorers, and families say about SkyBooker.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                name: 'Sarah Jenkins',
+                role: 'Corporate Travel Manager',
+                avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120&h=120',
+                rating: 5,
+                text: 'SkyBooker has completely streamlined our company travel bookings. The live seat selection is fast, and the double-booking protection is a lifesaver.',
+              },
+              {
+                name: 'David Chen',
+                role: 'Solo Adventurer',
+                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120',
+                rating: 5,
+                text: 'The absolute cleanest interface for booking flights. The live seat map updates are instantaneous and the pricing is 100% transparent. Highly recommend.',
+              },
+              {
+                name: 'Elena Rostova',
+                role: 'Family Traveler',
+                avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120&h=120',
+                rating: 5,
+                text: 'Rescheduling our family holiday flights was incredibly simple. The support team handled our request in minutes with zero extra booking fees.',
+              },
+            ].map((review, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col justify-between space-y-4 shadow-lg hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={review.avatar}
+                    alt={review.name}
+                    className="h-10 w-10 rounded-full object-cover border border-white/20"
+                  />
+                  <div>
+                    <h4 className="text-xs font-bold text-white">{review.name}</h4>
+                    <p className="text-[10px] text-gray-400 font-light">{review.role}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-200 leading-relaxed font-light italic">
+                  "{review.text}"
+                </p>
+                <div className="flex items-center gap-1 pt-2 border-t border-white/5">
+                  {Array.from({ length: review.rating }).map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-xs">★</span>
+                  ))}
+                  <span className="text-[10px] text-gray-400 ml-1">5.0 / 5.0 Rating</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAQs Section */}
+        <div className="mt-28 max-w-3xl mx-auto space-y-8 scroll-fade">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              Frequently Asked Questions
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 font-medium">
+              Everything you need to know about booking and safety protocols.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: 'How do I check in or manage my booking?',
+                a: 'You can manage all active and past bookings under the "My Bookings" tab after logging in. There, you can view your ticket details, download your receipt, cancel, or reschedule your flight dates instantly.',
+              },
+              {
+                q: 'How is seat locking secured on SkyBooker?',
+                a: 'SkyBooker uses transactional PostgreSQL row-level locks (RLS) during seat selection. When you select a seat and check out, the seat is locked exclusively for your transaction, making it impossible for two users to book the same seat simultaneously.',
+              },
+              {
+                q: 'Is the flight search schedules board live?',
+                a: 'Yes! All flight schedules are fetched live directly from the AirLabs developer schedule API, giving you actual flight schedules matching real-world airline routes.',
+              },
+            ].map((faq, idx) => (
+              <details
+                key={idx}
+                className="group rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 transition-all hover:bg-white/10 cursor-pointer"
+              >
+                <summary className="flex items-center justify-between text-sm font-semibold text-white outline-none select-none">
+                  <span>{faq.q}</span>
+                  <span className="text-[10px] text-gray-400 transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <p className="mt-3 text-xs text-gray-300 leading-relaxed font-light border-t border-white/10 pt-3">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        {/* Travel Newsletter Subscription Section */}
+        <div className="mt-28 w-full max-w-4xl mx-auto rounded-3xl border border-white/10 bg-gradient-to-tr from-blue-950/40 to-sky-900/30 backdrop-blur-xl p-8 sm:p-12 text-center space-y-6 relative overflow-hidden scroll-fade">
+          <div className="absolute -top-12 -left-12 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-sky-500/15 rounded-full blur-2xl pointer-events-none" />
+          <div className="space-y-2 relative z-10">
+            <span className="text-[10px] font-bold text-blue-400 tracking-widest uppercase">Never Miss a Fare Drop</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-sm">
+              Subscribe for Flight Deals
+            </h2>
+            <p className="mx-auto max-w-md text-xs sm:text-sm text-gray-300 font-light leading-relaxed">
+              Join 50k+ savvy travelers who receive custom price alerts, exclusive airline discounts, and global itinerary suggestions direct to their inbox.
+            </p>
+          </div>
+          <div className="relative z-10">
+            <NewsletterForm />
+          </div>
+        </div>
+
+        {/* Premium Corporate Footer */}
+        <footer className="mt-32 pt-12 border-t border-white/10 space-y-8 relative z-10">
+          <div className="grid gap-8 sm:grid-cols-4 text-xs">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">✈️</span>
+                <span className="text-base font-extrabold tracking-tight text-white">SkyBooker</span>
+              </div>
+              <p className="text-gray-400 leading-relaxed font-light">
+                Premium autonomous flight booking platform. Real-time schedules, interactive seat locking, and live passenger ticketing updates.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-bold text-white uppercase tracking-wider">Services</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/search" className="hover:text-white transition-colors">Flight Search</Link></li>
+                <li><Link href="/bookings" className="hover:text-white transition-colors">Interactive Seats</Link></li>
+                <li><span className="text-white/30 cursor-not-allowed">Hotel Deals (Soon)</span></li>
+              </ul>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-bold text-white uppercase tracking-wider">Company</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><span className="hover:text-white transition-colors cursor-pointer">About Us</span></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">Security Standards</span></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">Partner Portal</span></li>
+              </ul>
+            </div>
+            <div className="space-y-3">
+              <h4 className="font-bold text-white uppercase tracking-wider">Legal</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href={"/terms" as any} className="hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href={"/privacy" as any} className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">GDPR Compliance</span></li>
+              </ul>
+            </div>
+          </div>
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 text-[10px] text-gray-500 sm:flex-row">
+            <p>© {new Date().getFullYear()} SkyBooker. All rights reserved.</p>
+            <div className="flex gap-4">
+              <span className="hover:text-white cursor-pointer transition-colors">Twitter</span>
+              <span className="hover:text-white cursor-pointer transition-colors">GitHub</span>
+              <span className="hover:text-white cursor-pointer transition-colors">LinkedIn</span>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
