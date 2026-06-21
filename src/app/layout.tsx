@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/next';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import './globals.css';
 
@@ -80,6 +81,7 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
