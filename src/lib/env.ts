@@ -7,6 +7,13 @@ import { z } from 'zod';
 const serverSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  // Amadeus Flight Offers API (free self-service/test tier)
+  // The human operator must create a free account at https://developers.amadeus.com,
+  // register an app, and paste the real client_id/secret into .env.local.
+  // That account-creation step cannot be automated from code.
+  AMADEUS_CLIENT_ID: z.string().min(1, 'AMADEUS_CLIENT_ID is required'),
+  AMADEUS_CLIENT_SECRET: z.string().min(1, 'AMADEUS_CLIENT_SECRET is required'),
+  AMADEUS_API_BASE_URL: z.string().url().default('https://test.api.amadeus.com'),
 });
 
 /**
@@ -64,5 +71,8 @@ export const serverEnv =
     ? createEnvProxy<ServerEnv>(serverSchema, {
         SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
         NODE_ENV: process.env.NODE_ENV,
+        AMADEUS_CLIENT_ID: process.env.AMADEUS_CLIENT_ID,
+        AMADEUS_CLIENT_SECRET: process.env.AMADEUS_CLIENT_SECRET,
+        AMADEUS_API_BASE_URL: process.env.AMADEUS_API_BASE_URL,
       })
     : ({} as ServerEnv);

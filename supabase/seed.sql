@@ -43,35 +43,10 @@ BEGIN
     (f3_id, 'SA-201', 'BLR', 'DEL', now() + interval '4 days', now() + interval '4 days 2.5 hours', 'Airbus A320', 'scheduled', 5500.00),
     (f4_id, 'SA-202', 'DEL', 'BLR', now() + interval '5 days', now() + interval '5 days 2.5 hours', 'Airbus A320', 'scheduled', 5000.00);
 
-  -- 3. Create seats for flights (abbreviated seat map for seed, realistic maps generated via script in prod)
+  -- 3. Create seats for flights using the shared generate_seat_map() function
+  -- (defined in supabase/migrations/00005_external_flight_source.sql)
+  -- This ensures exactly one seat-layout definition in the codebase.
   FOR flight_record IN SELECT id FROM public.flights WHERE id IN (f1_id, f2_id, f3_id, f4_id) LOOP
-    -- First Class (Row 1)
-    INSERT INTO public.seats (flight_id, seat_number, class, extra_fee, is_available) VALUES
-      (flight_record.id, '1A', 'first', 15000.00, true),
-      (flight_record.id, '1B', 'first', 15000.00, true),
-      (flight_record.id, '1C', 'first', 15000.00, true),
-      (flight_record.id, '1D', 'first', 15000.00, true);
-      
-    -- Business Class (Rows 2-3)
-    INSERT INTO public.seats (flight_id, seat_number, class, extra_fee, is_available) VALUES
-      (flight_record.id, '2A', 'business', 8000.00, true),
-      (flight_record.id, '2B', 'business', 8000.00, true),
-      (flight_record.id, '2C', 'business', 8000.00, true),
-      (flight_record.id, '2D', 'business', 8000.00, true),
-      (flight_record.id, '3A', 'business', 8000.00, true),
-      (flight_record.id, '3B', 'business', 8000.00, true),
-      (flight_record.id, '3C', 'business', 8000.00, true),
-      (flight_record.id, '3D', 'business', 8000.00, true);
-
-    -- Economy Class (Rows 4-10)
-    FOR r IN 4..10 LOOP
-      INSERT INTO public.seats (flight_id, seat_number, class, extra_fee, is_available) VALUES
-        (flight_record.id, r || 'A', 'economy', 0.00, true),
-        (flight_record.id, r || 'B', 'economy', 0.00, true),
-        (flight_record.id, r || 'C', 'economy', 0.00, true),
-        (flight_record.id, r || 'D', 'economy', 0.00, true),
-        (flight_record.id, r || 'E', 'economy', 0.00, true),
-        (flight_record.id, r || 'F', 'economy', 0.00, true);
-    END LOOP;
+    PERFORM generate_seat_map(flight_record.id);
   END LOOP;
 END $$;

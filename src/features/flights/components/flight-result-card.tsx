@@ -89,9 +89,16 @@ export const FlightResultCard = memo(function FlightResultCard({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900 dark:text-white">
-                {flight.flight_no}
-              </p>
+              <div className="flex items-center gap-1.5">
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
+                  {flight.flight_no}
+                </p>
+                {flight.source === 'amadeus' && (
+                  <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-medium text-sky-600 dark:bg-sky-950 dark:text-sky-400">
+                    Live fare
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-gray-400 dark:text-gray-500">
                 {flight.aircraft_type}
               </p>

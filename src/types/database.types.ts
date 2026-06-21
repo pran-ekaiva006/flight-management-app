@@ -20,6 +20,8 @@ export type Database = {
           aircraft_type: string;
           status: Database['public']['Enums']['flight_status'];
           base_price: number;
+          source: string;
+          external_ref: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -33,6 +35,8 @@ export type Database = {
           aircraft_type?: string;
           status?: Database['public']['Enums']['flight_status'];
           base_price: number;
+          source?: string;
+          external_ref?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -46,6 +50,8 @@ export type Database = {
           aircraft_type?: string;
           status?: Database['public']['Enums']['flight_status'];
           base_price?: number;
+          source?: string;
+          external_ref?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -280,6 +286,12 @@ export type Database = {
           p_new_seat_id: string;
         };
         Returns: Json;
+      };
+      generate_seat_map: {
+        Args: {
+          p_flight_id: string;
+        };
+        Returns: undefined;
       };
     };
     Enums: {
