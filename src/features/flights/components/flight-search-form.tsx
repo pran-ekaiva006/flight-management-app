@@ -144,11 +144,13 @@ interface FlightSearchFormProps {
     passengers?: string;
   };
   compact?: boolean;
+  hideFilters?: boolean;
 }
 
 export function FlightSearchForm({
   defaultValues,
   compact,
+  hideFilters = false,
 }: FlightSearchFormProps) {
   const [state, formAction] = useFormState(searchFlightsAction, initialState);
   const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way');
@@ -190,95 +192,97 @@ export function FlightSearchForm({
   return (
     <div className="space-y-4">
       {/* Form controls/filters row */}
-      <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
-        {/* Trip Type Select Dropdown */}
-        <div className="relative text-xs font-bold text-gray-500 dark:text-gray-400">
-          <button
-            type="button"
-            onClick={() => {
-              setTripTypeDropdownOpen(!tripTypeDropdownOpen);
-              setCabinClassDropdownOpen(false);
-            }}
-            className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white transition-colors bg-gray-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700"
-          >
-            <span>{tripType === 'one-way' ? 'One way' : 'Round trip'}</span>
-            <span className="text-[9px]">▼</span>
-          </button>
-          {tripTypeDropdownOpen && (
-            <div className="absolute left-0 mt-1 w-32 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl py-1 shadow-2xl z-50 text-gray-900 dark:text-white font-bold">
-              <button
-                type="button"
-                onClick={() => {
-                  setTripType('one-way');
-                  setTripTypeDropdownOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                One way
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setTripType('round-trip');
-                  setTripTypeDropdownOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                Round trip
-              </button>
-            </div>
-          )}
-        </div>
+      {!hideFilters && (
+        <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+          {/* Trip Type Select Dropdown */}
+          <div className="relative text-xs font-bold text-gray-500 dark:text-gray-400">
+            <button
+              type="button"
+              onClick={() => {
+                setTripTypeDropdownOpen(!tripTypeDropdownOpen);
+                setCabinClassDropdownOpen(false);
+              }}
+              className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white transition-colors bg-gray-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700"
+            >
+              <span>{tripType === 'one-way' ? 'One way' : 'Round trip'}</span>
+              <span className="text-[9px]">▼</span>
+            </button>
+            {tripTypeDropdownOpen && (
+              <div className="absolute left-0 mt-1 w-32 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl py-1 shadow-2xl z-50 text-gray-900 dark:text-white font-bold">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTripType('one-way');
+                    setTripTypeDropdownOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  One way
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTripType('round-trip');
+                    setTripTypeDropdownOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  Round trip
+                </button>
+              </div>
+            )}
+          </div>
 
-        {/* Cabin Class Select Dropdown */}
-        <div className="relative text-xs font-bold text-gray-500 dark:text-gray-400">
-          <button
-            type="button"
-            onClick={() => {
-              setCabinClassDropdownOpen(!cabinClassDropdownOpen);
-              setTripTypeDropdownOpen(false);
-            }}
-            className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white transition-colors bg-gray-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700"
-          >
-            <span className="capitalize">{cabinClass}</span>
-            <span className="text-[9px]">▼</span>
-          </button>
-          {cabinClassDropdownOpen && (
-            <div className="absolute left-0 mt-1 w-36 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl py-1 shadow-2xl z-50 text-gray-900 dark:text-white font-bold">
-              <button
-                type="button"
-                onClick={() => {
-                  setCabinClass('economy');
-                  setCabinClassDropdownOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
-              >
-                Economy
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setCabinClass('business');
-                  setCabinClassDropdownOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
-              >
-                Business
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setCabinClass('first');
-                  setCabinClassDropdownOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
-              >
-                First Class
-              </button>
-            </div>
-          )}
+          {/* Cabin Class Select Dropdown */}
+          <div className="relative text-xs font-bold text-gray-500 dark:text-gray-400">
+            <button
+              type="button"
+              onClick={() => {
+                setCabinClassDropdownOpen(!cabinClassDropdownOpen);
+                setTripTypeDropdownOpen(false);
+              }}
+              className="flex items-center gap-1 cursor-pointer hover:text-gray-700 dark:hover:text-white transition-colors bg-gray-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700"
+            >
+              <span className="capitalize">{cabinClass}</span>
+              <span className="text-[9px]">▼</span>
+            </button>
+            {cabinClassDropdownOpen && (
+              <div className="absolute left-0 mt-1 w-36 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl py-1 shadow-2xl z-50 text-gray-900 dark:text-white font-bold">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCabinClass('economy');
+                    setCabinClassDropdownOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
+                >
+                  Economy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCabinClass('business');
+                    setCabinClassDropdownOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
+                >
+                  Business
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCabinClass('first');
+                    setCabinClassDropdownOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors capitalize"
+                >
+                  First Class
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <form
           action={formAction}

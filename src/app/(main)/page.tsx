@@ -251,6 +251,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <div className="rounded-3xl border border-white/20 bg-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
               <FlightSearchForm
                 compact={true}
+                hideFilters={true}
                 defaultValues={{
                   origin: searchParams?.origin,
                   destination: searchParams?.destination,
