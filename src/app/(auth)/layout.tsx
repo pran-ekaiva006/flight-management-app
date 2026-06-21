@@ -22,8 +22,8 @@ export default function AuthLayout({
           </Link>
         </div>
 
-        {/* Minimalist Card for Form */}
-        <div className="rounded-2xl border border-border/60 bg-surface shadow-sm p-6 sm:p-7">
+        {/* Minimalist Container for Form (No card background) */}
+        <div className="w-full">
           {children}
         </div>
 

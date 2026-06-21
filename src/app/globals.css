@@ -18,9 +18,9 @@
   }
 
   .dark {
-    --background: #020617;
-    --surface: #0F172A;
-    --card: #111827;
+    --background: #0F172A; /* slate-900 */
+    --surface: #1E293B; /* slate-800 */
+    --card: #1E293B;
     --primary: #3B82F6;
     --secondary: #38BDF8;
     --accent: #38BDF8;
