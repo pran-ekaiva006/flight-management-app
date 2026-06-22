@@ -17,12 +17,12 @@ export interface AirLabsSchedule {
   flight_number?: string;
   dep_iata?: string;
   arr_iata?: string;
-  dep_time?: string;       // "2024-07-14 19:53" (airport local time)
-  arr_time?: string;       // "2024-07-14 22:52" (airport local time)
+  dep_time?: string; // "2024-07-14 19:53" (airport local time)
+  arr_time?: string; // "2024-07-14 22:52" (airport local time)
   dep_time_utc?: string;
   arr_time_utc?: string;
-  duration?: number;        // minutes
-  status?: string;          // "scheduled", "active", "landed", "cancelled"
+  duration?: number; // minutes
+  status?: string; // "scheduled", "active", "landed", "cancelled"
 }
 
 // ─── Normalized output shape ───────────────────────────
@@ -38,14 +38,7 @@ export interface NormalizedFlight {
   external_ref: string;
 }
 
-// ─── Deterministic Mock Pricing ────────────────────────
-// AirLabs provides real flight schedules but no pricing data.
-// We generate realistic INR prices deterministically so the
-// same flight always gets the same price.
 
-/**
- * Simple string hash (djb2) — produces a stable number from a string.
- */
 function hashCode(str: string): number {
   let hash = 5381;
   for (let i = 0; i < str.length; i++) {
@@ -83,7 +76,7 @@ function generateMockPrice(
   const hourMatch = depTime.match(/(\d{2}):\d{2}/);
   const hour = hourMatch?.[1] ? parseInt(hourMatch[1], 10) : 12;
   const isPeak = (hour >= 6 && hour <= 10) || (hour >= 17 && hour <= 21);
-  const timeMultiplier = isPeak ? 1.15 : 0.90;
+  const timeMultiplier = isPeak ? 1.15 : 0.9;
 
   // Hash-based variation: ±15%
   const hash = hashCode(flightIata);
@@ -95,12 +88,7 @@ function generateMockPrice(
   return Math.max(2000, Math.min(50000, price));
 }
 
-// ─── Normalizer ────────────────────────────────────────
-
-/**
- * Normalize a single AirLabs schedule entry into our schema.
- * Returns null if the entry is unusable (missing fields, cancelled, etc.).
- */
+/
 export function normalizeSchedule(
   schedule: AirLabsSchedule,
   targetDate?: string,
@@ -149,7 +137,8 @@ export function normalizeSchedule(
           const rawDepDate = new Date(`${rawDepDateStr}T00:00:00Z`);
           const rawArrDate = new Date(`${rawArrDateStr}T00:00:00Z`);
           dayDiff = Math.round(
-            (rawArrDate.getTime() - rawDepDate.getTime()) / (24 * 60 * 60 * 1000),
+            (rawArrDate.getTime() - rawDepDate.getTime()) /
+              (24 * 60 * 60 * 1000),
           );
           if (isNaN(dayDiff)) dayDiff = 0;
         }
@@ -163,7 +152,10 @@ export function normalizeSchedule(
         const targetArrDateStr = targetArrDate.toISOString().split('T')[0];
         arrivesAt = `${targetArrDateStr}T${arrTimePart}`;
       } catch (err) {
-        console.warn('[AirLabs Normalizer] Failed to adjust schedule date:', err);
+        console.warn(
+          '[AirLabs Normalizer] Failed to adjust schedule date:',
+          err,
+        );
       }
     }
 

@@ -37,7 +37,11 @@ export function FlightSortControls() {
                    hover:border-border"
       >
         {Object.entries(SORT_LABELS).map(([value, label]) => (
-          <option key={value} value={value} className="bg-card text-text font-medium">
+          <option
+            key={value}
+            value={value}
+            className="bg-card text-text font-medium"
+          >
             {label}
           </option>
         ))}

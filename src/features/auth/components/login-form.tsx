@@ -27,7 +27,11 @@ function SubmitButton() {
     >
       {pending ? (
         <span className="flex items-center justify-center gap-2">
-          <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+          <svg
+            className="h-4 w-4 animate-spin text-white"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
             <circle
               className="opacity-25"
               cx="12"
@@ -277,7 +281,9 @@ export function LoginForm() {
       {/* ─── Divider ───────────────────────────────────── */}
       <div className="flex items-center gap-4 py-1.5">
         <div className="h-px flex-1 bg-border/40" />
-        <span className="text-xs font-bold uppercase tracking-widest text-muted">or</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-muted">
+          or
+        </span>
         <div className="h-px flex-1 bg-border/40" />
       </div>
 

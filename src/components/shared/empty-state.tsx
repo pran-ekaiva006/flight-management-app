@@ -9,9 +9,14 @@ interface EmptyStateProps {
   action?: React.ReactNode;
 }
 
-export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
+export function EmptyState({
+  icon,
+  title,
+  description,
+  action,
+}: EmptyStateProps) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
@@ -22,9 +27,7 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
           {icon}
         </div>
       )}
-      <h3 className="text-xl font-bold text-text font-heading">
-        {title}
-      </h3>
+      <h3 className="text-xl font-bold text-text font-heading">{title}</h3>
       {description && (
         <p className="mt-2 max-w-sm text-sm text-muted leading-relaxed">
           {description}

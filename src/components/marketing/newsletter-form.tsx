@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 
 export function NewsletterForm() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,10 +23,15 @@ export function NewsletterForm() {
       {status === 'success' ? (
         <div className="w-full text-center py-4 px-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium text-sm animate-fade-in backdrop-blur-md">
           <p className="text-base mb-1">🎉 Subscription Active!</p>
-          <p className="text-xs text-emerald-400/80 font-light">Check your inbox soon for exclusive premium flight deals.</p>
+          <p className="text-xs text-emerald-400/80 font-light">
+            Check your inbox soon for exclusive premium flight deals.
+          </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col sm:flex-row gap-3"
+        >
           <input
             type="email"
             placeholder="Enter your email for price drops"

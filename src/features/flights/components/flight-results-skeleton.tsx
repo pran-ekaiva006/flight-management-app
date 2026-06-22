@@ -19,7 +19,7 @@ export function FlightResultsSkeleton({ count = 3 }: { count?: number }) {
         >
           {/* Shimmer overlay */}
           <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_2s_infinite]" />
-          
+
           {/* Header skeleton */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-4">

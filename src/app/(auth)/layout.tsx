@@ -23,15 +23,19 @@ export default function AuthLayout({
         </div>
 
         {/* Minimalist Container for Form (No card background) */}
-        <div className="w-full">
-          {children}
-        </div>
+        <div className="w-full">{children}</div>
 
         {/* Footer links */}
         <div className="mt-8 text-center text-xs text-muted flex items-center justify-center gap-4">
-          <Link href="/" className="hover:text-text transition-colors">Home</Link>
-          <Link href="#" className="hover:text-text transition-colors">Privacy Policy</Link>
-          <Link href="#" className="hover:text-text transition-colors">Terms of Service</Link>
+          <Link href="/" className="hover:text-text transition-colors">
+            Home
+          </Link>
+          <Link href="#" className="hover:text-text transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="#" className="hover:text-text transition-colors">
+            Terms of Service
+          </Link>
         </div>
       </div>
     </div>

@@ -40,23 +40,41 @@ export async function Navbar() {
             ))
           ) : (
             <>
-              <Link href="/search" className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/search"
+                className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 <NavIcon icon="search" className="h-4 w-4" />
                 Search Flights
               </Link>
-              <Link href="/#why-choose-us" className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/#why-choose-us"
+                className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 Benefits
               </Link>
-              <Link href="/#destinations" className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/#destinations"
+                className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 Destinations
               </Link>
-              <Link href="/#how-it-works" className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/#how-it-works"
+                className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 How It Works
               </Link>
-              <Link href="/#reviews" className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/#reviews"
+                className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 Reviews
               </Link>
-              <Link href="/#faqs" className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text">
+              <Link
+                href="/#faqs"
+                className="rounded-xl px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-muted/10 hover:text-text"
+              >
                 FAQs
               </Link>
             </>
@@ -66,7 +84,7 @@ export async function Navbar() {
         {/* Actions section */}
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          
+
           {user ? (
             <div className="flex items-center gap-4 border-l border-border/50 pl-4">
               <div className="hidden items-center gap-2 sm:flex">

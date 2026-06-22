@@ -45,9 +45,11 @@ export const FlightResultCard = memo(function FlightResultCard({
     }).format(price);
 
   const classColors = {
-    economy: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20',
+    economy:
+      'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20',
     business: 'bg-primary/10 text-primary border border-primary/20',
-    first: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
+    first:
+      'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
   };
 
   const classLabels = {
@@ -128,7 +130,9 @@ export const FlightResultCard = memo(function FlightResultCard({
               <div className="h-2 w-2 rounded-full border-2 border-primary bg-card" />
               <div className="h-[2px] flex-1 bg-border/40 rounded-full" />
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Direct</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+              Direct
+            </p>
           </div>
 
           {/* Arrival */}
@@ -154,11 +158,15 @@ export const FlightResultCard = memo(function FlightResultCard({
                 key={sc.class}
                 className={`rounded-xl px-3 py-2 text-xs font-medium transition-colors cursor-default ${classColors[sc.class]}`}
               >
-                <span className="font-bold uppercase tracking-wider">{classLabels[sc.class]}</span>
+                <span className="font-bold uppercase tracking-wider">
+                  {classLabels[sc.class]}
+                </span>
                 <span className="mx-2 opacity-30">|</span>
                 <span className="font-semibold">{sc.available} seats</span>
                 <span className="mx-2 opacity-30">|</span>
-                <span className="font-bold">{formatPrice(sc.startingPrice)}</span>
+                <span className="font-bold">
+                  {formatPrice(sc.startingPrice)}
+                </span>
               </div>
             ))}
           </div>
@@ -166,7 +174,9 @@ export const FlightResultCard = memo(function FlightResultCard({
           {/* Price + CTA */}
           <div className="flex items-center gap-6">
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">from</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">
+                from
+              </p>
               <p className="text-2xl font-black text-text font-heading tracking-tight">
                 {formatPrice(lowestPrice)}
               </p>

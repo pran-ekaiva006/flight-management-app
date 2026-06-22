@@ -128,7 +128,9 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
   // Scroll lock
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   const feeCharged = selectedFlight
@@ -173,8 +175,18 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                 onClick={() => !submitting && setIsOpen(false)}
                 className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -182,12 +194,27 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
             {/* Step indicator */}
             <div className="flex border-b border-gray-100 px-5 py-2 dark:border-gray-800">
               {(['flight', 'seat', 'confirm'] as const).map((s, i) => (
-                <div key={s} className={`flex items-center gap-1.5 text-xs ${step === s ? 'font-semibold text-gray-900 dark:text-white' : 'text-gray-400'}`}>
-                  <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${step === s ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : 'bg-gray-100 dark:bg-gray-800'}`}>
+                <div
+                  key={s}
+                  className={`flex items-center gap-1.5 text-xs ${step === s ? 'font-semibold text-gray-900 dark:text-white' : 'text-gray-400'}`}
+                >
+                  <span
+                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${step === s ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : 'bg-gray-100 dark:bg-gray-800'}`}
+                  >
                     {i + 1}
                   </span>
-                  <span className="hidden sm:inline">{s === 'flight' ? 'Select Flight' : s === 'seat' ? 'Select Seat' : 'Confirm'}</span>
-                  {i < 2 && <span className="mx-2 text-gray-300 dark:text-gray-700">→</span>}
+                  <span className="hidden sm:inline">
+                    {s === 'flight'
+                      ? 'Select Flight'
+                      : s === 'seat'
+                        ? 'Select Seat'
+                        : 'Confirm'}
+                  </span>
+                  {i < 2 && (
+                    <span className="mx-2 text-gray-300 dark:text-gray-700">
+                      →
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
@@ -203,15 +230,32 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
             <div className="flex-1 overflow-y-auto p-5">
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <svg className="h-6 w-6 animate-spin text-gray-400" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  <svg
+                    className="h-6 w-6 animate-spin text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                 </div>
               ) : step === 'flight' ? (
                 <div className="space-y-3">
                   {flights.length === 0 ? (
-                    <p className="py-8 text-center text-sm text-gray-500">No alternative flights available on this route.</p>
+                    <p className="py-8 text-center text-sm text-gray-500">
+                      No alternative flights available on this route.
+                    </p>
                   ) : (
                     flights.map((f) => {
                       const fee = Math.max(0, f.base_price - currentBasePrice);
@@ -224,26 +268,44 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="font-semibold text-gray-900 dark:text-white">{f.flight_no}</p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">{f.aircraft_type}</p>
+                              <p className="font-semibold text-gray-900 dark:text-white">
+                                {f.flight_no}
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                {f.aircraft_type}
+                              </p>
                             </div>
                             <div className="text-right">
-                              <p className="font-bold text-gray-900 dark:text-white">{formatPrice(f.base_price)}</p>
+                              <p className="font-bold text-gray-900 dark:text-white">
+                                {formatPrice(f.base_price)}
+                              </p>
                               {fee > 0 && (
-                                <p className="text-xs text-amber-600 dark:text-amber-400">+{formatPrice(fee)} fee</p>
+                                <p className="text-xs text-amber-600 dark:text-amber-400">
+                                  +{formatPrice(fee)} fee
+                                </p>
                               )}
                               {fee === 0 && (
-                                <p className="text-xs text-emerald-600 dark:text-emerald-400">No extra fee</p>
+                                <p className="text-xs text-emerald-600 dark:text-emerald-400">
+                                  No extra fee
+                                </p>
                               )}
                             </div>
                           </div>
                           <div className="mt-2 flex items-center gap-3 text-sm">
-                            <span className="font-medium text-gray-700 dark:text-gray-300">{formatTime(f.departs_at)}</span>
+                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                              {formatTime(f.departs_at)}
+                            </span>
                             <span className="text-gray-400">→</span>
-                            <span className="font-medium text-gray-700 dark:text-gray-300">{formatTime(f.arrives_at)}</span>
-                            <span className="text-xs text-gray-400">· {formatDate(f.departs_at)}</span>
+                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                              {formatTime(f.arrives_at)}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              · {formatDate(f.departs_at)}
+                            </span>
                           </div>
-                          <p className="mt-1 text-xs text-gray-400">{f.availableSeats} seats available</p>
+                          <p className="mt-1 text-xs text-gray-400">
+                            {f.availableSeats} seats available
+                          </p>
                         </button>
                       );
                     })
@@ -262,7 +324,9 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                     Select a seat on {selectedFlight?.flight_no}
                   </p>
                   {seats.length === 0 ? (
-                    <p className="py-8 text-center text-sm text-gray-500">No available seats.</p>
+                    <p className="py-8 text-center text-sm text-gray-500">
+                      No available seats.
+                    </p>
                   ) : (
                     <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                       {seats.map((s) => (
@@ -277,9 +341,13 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                           }`}
                         >
                           <p className="text-sm font-bold">{s.seat_number}</p>
-                          <p className="text-[10px] capitalize text-gray-500">{s.class}</p>
+                          <p className="text-[10px] capitalize text-gray-500">
+                            {s.class}
+                          </p>
                           {s.extra_fee > 0 && (
-                            <p className="text-[10px] text-gray-400">+{formatPrice(s.extra_fee)}</p>
+                            <p className="text-[10px] text-gray-400">
+                              +{formatPrice(s.extra_fee)}
+                            </p>
                           )}
                         </button>
                       ))}
@@ -297,30 +365,51 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                   </button>
 
                   <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800/50">
-                    <h4 className="mb-2 text-xs font-semibold text-gray-400">NEW FLIGHT</h4>
-                    <p className="font-semibold text-gray-900 dark:text-white">{selectedFlight?.flight_no}</p>
+                    <h4 className="mb-2 text-xs font-semibold text-gray-400">
+                      NEW FLIGHT
+                    </h4>
+                    <p className="font-semibold text-gray-900 dark:text-white">
+                      {selectedFlight?.flight_no}
+                    </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {formatTime(selectedFlight?.departs_at || '')} → {formatTime(selectedFlight?.arrives_at || '')} · {formatDate(selectedFlight?.departs_at || '')}
+                      {formatTime(selectedFlight?.departs_at || '')} →{' '}
+                      {formatTime(selectedFlight?.arrives_at || '')} ·{' '}
+                      {formatDate(selectedFlight?.departs_at || '')}
                     </p>
                   </div>
 
                   <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800/50">
-                    <h4 className="mb-2 text-xs font-semibold text-gray-400">NEW SEAT</h4>
+                    <h4 className="mb-2 text-xs font-semibold text-gray-400">
+                      NEW SEAT
+                    </h4>
                     <p className="font-semibold text-gray-900 dark:text-white">
-                      {selectedSeat?.seat_number} <span className="text-xs capitalize text-gray-500">({selectedSeat?.class})</span>
+                      {selectedSeat?.seat_number}{' '}
+                      <span className="text-xs capitalize text-gray-500">
+                        ({selectedSeat?.class})
+                      </span>
                     </p>
                   </div>
 
                   <div className="rounded-xl border border-gray-200 p-4 dark:border-gray-700">
-                    <h4 className="mb-2 text-xs font-semibold text-gray-400">FEE SUMMARY</h4>
+                    <h4 className="mb-2 text-xs font-semibold text-gray-400">
+                      FEE SUMMARY
+                    </h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-gray-400">New base fare</span>
-                        <span className="text-gray-900 dark:text-white">{formatPrice(selectedFlight?.base_price || 0)}</span>
+                        <span className="text-gray-600 dark:text-gray-400">
+                          New base fare
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {formatPrice(selectedFlight?.base_price || 0)}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-gray-400">Seat surcharge</span>
-                        <span className="text-gray-900 dark:text-white">{formatPrice(selectedSeat?.extra_fee || 0)}</span>
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Seat surcharge
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {formatPrice(selectedSeat?.extra_fee || 0)}
+                        </span>
                       </div>
                       {feeCharged > 0 && (
                         <div className="flex justify-between text-amber-600 dark:text-amber-400">
@@ -330,9 +419,14 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                       )}
                       <div className="border-t border-gray-200 pt-1 dark:border-gray-700">
                         <div className="flex justify-between font-bold">
-                          <span className="text-gray-900 dark:text-white">New total</span>
                           <span className="text-gray-900 dark:text-white">
-                            {formatPrice((selectedFlight?.base_price || 0) + (selectedSeat?.extra_fee || 0))}
+                            New total
+                          </span>
+                          <span className="text-gray-900 dark:text-white">
+                            {formatPrice(
+                              (selectedFlight?.base_price || 0) +
+                                (selectedSeat?.extra_fee || 0),
+                            )}
                           </span>
                         </div>
                       </div>
@@ -355,9 +449,24 @@ export function RescheduleButton({ bookingId }: RescheduleButtonProps) {
                 >
                   {submitting ? (
                     <span className="flex items-center justify-center gap-2">
-                      <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      <svg
+                        className="h-4 w-4 animate-spin"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        />
                       </svg>
                       Rescheduling…
                     </span>

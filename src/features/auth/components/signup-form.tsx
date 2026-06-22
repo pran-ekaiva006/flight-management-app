@@ -21,9 +21,24 @@ function SubmitButton() {
     >
       {pending ? (
         <span className="flex items-center justify-center gap-2">
-          <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          <svg
+            className="h-4 w-4 animate-spin text-white"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           Creating account...
         </span>
@@ -100,7 +115,10 @@ export function SignupForm() {
       {state?.success && (
         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-4 text-sm font-medium text-emerald-600 dark:text-emerald-400">
           Account created! Check your email for a confirmation link, then{' '}
-          <Link href="/login" className="font-bold underline decoration-emerald-500/40 underline-offset-4 hover:decoration-emerald-500 transition-colors">
+          <Link
+            href="/login"
+            className="font-bold underline decoration-emerald-500/40 underline-offset-4 hover:decoration-emerald-500 transition-colors"
+          >
             sign in
           </Link>
           .
@@ -117,7 +135,11 @@ export function SignupForm() {
             strokeWidth={2}
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
           </svg>
         </div>
         <input
@@ -212,7 +234,11 @@ export function SignupForm() {
             strokeWidth={2}
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
         </div>
         <input

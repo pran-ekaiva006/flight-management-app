@@ -25,9 +25,7 @@ export function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
               key={item.href}
               href={item.href}
               className={`relative flex flex-col items-center justify-center min-h-[44px] min-w-[44px] gap-0.5 rounded-xl px-4 py-1.5 transition-all ${
-                isActive
-                  ? 'text-primary'
-                  : 'text-muted hover:text-text'
+                isActive ? 'text-primary' : 'text-muted hover:text-text'
               }`}
             >
               <NavIcon

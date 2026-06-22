@@ -45,10 +45,29 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
 }
 
-/* ─── Utilities ──────────────────────────────────────── */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .glass-surface {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+  }
+
+  .dark .glass-surface {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .accent-gradient {
+    background: linear-gradient(135deg, #6d28d9, #38bdf8); /* Stratosphere: violet-700 to sky-400 */
+  }
+
+  .text-accent-gradient {
+    background: linear-gradient(135deg, #6d28d9, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 

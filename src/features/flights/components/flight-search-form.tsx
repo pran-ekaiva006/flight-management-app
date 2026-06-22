@@ -3,7 +3,16 @@
 import { useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { toast } from 'sonner';
-import { PlaneTakeoff, PlaneLanding, Calendar, Users, Search, Loader2, ChevronDown, AlertCircle } from 'lucide-react';
+import {
+  PlaneTakeoff,
+  PlaneLanding,
+  Calendar,
+  Users,
+  Search,
+  Loader2,
+  ChevronDown,
+  AlertCircle,
+} from 'lucide-react';
 import {
   searchFlightsAction,
   type SearchActionResult,
@@ -20,12 +29,12 @@ function SearchButton() {
       id="flight-search-submit"
       type="submit"
       disabled={pending}
-      className="group relative w-full overflow-hidden rounded-xl bg-primary px-6 py-3.5
-                 text-sm font-semibold text-white shadow-lg transition-all
-                 hover:bg-primary-600 hover:shadow-xl hover:scale-[1.02]
-                 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-                 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100
-                 sm:w-auto sm:min-w-[180px]"
+      className="group relative w-full overflow-hidden rounded-2xl accent-gradient px-8 py-4
+                 text-base font-bold text-white shadow-lg shadow-violet-500/20 transition-all duration-300
+                 hover:shadow-xl hover:shadow-violet-500/30 hover:-translate-y-[2px]
+                 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-surface
+                 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0
+                 sm:w-auto sm:min-w-[200px]"
     >
       {/* Shine effect on hover */}
       <span
@@ -35,12 +44,12 @@ function SearchButton() {
       />
       {pending ? (
         <span className="flex items-center justify-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="h-5 w-5 animate-spin" />
           Searching…
         </span>
       ) : (
         <span className="flex items-center justify-center gap-2">
-          <Search className="h-4 w-4 transition-transform group-hover:scale-110" />
+          <Search className="h-5 w-5 transition-transform group-hover:scale-110" />
           Search Flights
         </span>
       )}
@@ -80,9 +89,7 @@ function InputGroup({
       <label
         htmlFor={htmlFor}
         className={`block font-medium text-text ${
-          compact
-            ? 'text-xs text-muted uppercase tracking-wider'
-            : 'text-sm'
+          compact ? 'text-xs text-muted uppercase tracking-wider' : 'text-sm'
         }`}
       >
         {label}
@@ -117,7 +124,9 @@ export function FlightSearchForm({
 }: FlightSearchFormProps) {
   const [state, formAction] = useFormState(searchFlightsAction, initialState);
   const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way');
-  const [cabinClass, setCabinClass] = useState<'economy' | 'business' | 'first'>('economy');
+  const [cabinClass, setCabinClass] = useState<
+    'economy' | 'business' | 'first'
+  >('economy');
   const [tripTypeDropdownOpen, setTripTypeDropdownOpen] = useState(false);
   const [cabinClassDropdownOpen, setCabinClassDropdownOpen] = useState(false);
 
@@ -131,14 +140,14 @@ export function FlightSearchForm({
   const today = new Date().toISOString().split('T')[0];
 
   const inputClasses = (hasError: boolean) =>
-    `w-full rounded-xl border bg-surface pl-10 pr-4 text-sm text-text
-     shadow-sm transition-all placeholder:text-muted/50
-     focus:outline-none focus:ring-2 focus:ring-offset-0 group
-     ${compact ? 'py-2.5' : 'py-3.5'}
+    `w-full rounded-2xl border bg-surface/80 backdrop-blur-sm pl-11 pr-4 text-sm text-text font-semibold
+     shadow-inner transition-all placeholder:text-muted/50
+     focus:outline-none focus:ring-2 focus:ring-offset-0 focus:bg-surface group
+     ${compact ? 'py-3' : 'py-4'}
      ${
        hasError
          ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:border-red-700 dark:focus:ring-red-900'
-         : 'border-border/60 focus:border-primary focus:ring-primary/20 hover:border-border'
+         : 'border-border/60 focus:border-violet-500/50 focus:ring-violet-500/20 hover:border-border'
      }`;
 
   const handleFormSubmit = () => {
@@ -153,222 +162,200 @@ export function FlightSearchForm({
     <div className="space-y-4">
       {/* Form controls/filters row */}
       {!hideFilters && (
-        <div className="flex items-center gap-3 pb-4 border-b border-border/40">
-          {/* Trip Type Select Dropdown */}
-          <div className="relative text-xs font-bold text-muted">
+        <div className="flex flex-wrap items-center gap-3 pb-6 border-b border-border/40">
+          {/* Trip Type Segmented Control */}
+          <div className="flex bg-surface/40 border border-border/40 rounded-xl p-1 shadow-inner">
             <button
               type="button"
-              onClick={() => {
-                setTripTypeDropdownOpen(!tripTypeDropdownOpen);
-                setCabinClassDropdownOpen(false);
-              }}
-              className="flex items-center gap-1.5 cursor-pointer hover:text-text transition-colors bg-surface/50 px-3 py-2 rounded-lg border border-border/40 hover:bg-surface/80 shadow-sm"
+              onClick={() => setTripType('one-way')}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                tripType === 'one-way'
+                  ? 'bg-surface text-text shadow-sm ring-1 ring-border/50'
+                  : 'text-muted hover:text-text hover:bg-surface/50'
+              }`}
             >
-              <span>{tripType === 'one-way' ? 'One way' : 'Round trip'}</span>
-              <ChevronDown className={`h-3 w-3 transition-transform ${tripTypeDropdownOpen ? 'rotate-180' : ''}`} />
+              One way
             </button>
-            {tripTypeDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-32 bg-card border border-border/60 rounded-xl py-1 shadow-xl z-50 text-text font-bold overflow-hidden animate-in fade-in slide-in-from-top-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTripType('one-way');
-                    setTripTypeDropdownOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-surface transition-colors"
-                >
-                  One way
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTripType('round-trip');
-                    setTripTypeDropdownOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-surface transition-colors"
-                >
-                  Round trip
-                </button>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => setTripType('round-trip')}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                tripType === 'round-trip'
+                  ? 'bg-surface text-text shadow-sm ring-1 ring-border/50'
+                  : 'text-muted hover:text-text hover:bg-surface/50'
+              }`}
+            >
+              Round trip
+            </button>
           </div>
 
-          {/* Cabin Class Select Dropdown */}
-          <div className="relative text-xs font-bold text-muted">
+          {/* Cabin Class Segmented Control */}
+          <div className="flex bg-surface/40 border border-border/40 rounded-xl p-1 shadow-inner">
             <button
               type="button"
-              onClick={() => {
-                setCabinClassDropdownOpen(!cabinClassDropdownOpen);
-                setTripTypeDropdownOpen(false);
-              }}
-              className="flex items-center gap-1.5 cursor-pointer hover:text-text transition-colors bg-surface/50 px-3 py-2 rounded-lg border border-border/40 hover:bg-surface/80 shadow-sm"
+              onClick={() => setCabinClass('economy')}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                cabinClass === 'economy'
+                  ? 'bg-surface text-text shadow-sm ring-1 ring-border/50'
+                  : 'text-muted hover:text-text hover:bg-surface/50'
+              }`}
             >
-              <span className="capitalize">{cabinClass}</span>
-              <ChevronDown className={`h-3 w-3 transition-transform ${cabinClassDropdownOpen ? 'rotate-180' : ''}`} />
+              Economy
             </button>
-            {cabinClassDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-36 bg-card border border-border/60 rounded-xl py-1 shadow-xl z-50 text-text font-bold overflow-hidden animate-in fade-in slide-in-from-top-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCabinClass('economy');
-                    setCabinClassDropdownOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-surface transition-colors capitalize"
-                >
-                  Economy
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCabinClass('business');
-                    setCabinClassDropdownOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-surface transition-colors capitalize"
-                >
-                  Business
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCabinClass('first');
-                    setCabinClassDropdownOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-surface transition-colors capitalize"
-                >
-                  First Class
-                </button>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => setCabinClass('business')}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                cabinClass === 'business'
+                  ? 'bg-surface text-text shadow-sm ring-1 ring-border/50'
+                  : 'text-muted hover:text-text hover:bg-surface/50'
+              }`}
+            >
+              Business
+            </button>
+            <button
+              type="button"
+              onClick={() => setCabinClass('first')}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
+                cabinClass === 'first'
+                  ? 'bg-surface text-text shadow-sm ring-1 ring-border/50'
+                  : 'text-muted hover:text-text hover:bg-surface/50'
+              }`}
+            >
+              First
+            </button>
           </div>
         </div>
       )}
 
       <form
-          action={formAction}
-          onSubmit={handleFormSubmit}
-          className={compact ? 'space-y-4' : 'space-y-6'}
-          noValidate
+        action={formAction}
+        onSubmit={handleFormSubmit}
+        className={compact ? 'space-y-4' : 'space-y-6'}
+        noValidate
+      >
+        {/* Global error fallback for screen readers */}
+        <div aria-live="polite" className="sr-only">
+          {state?.error && !state.fieldErrors ? state.error : ''}
+        </div>
+
+        {/* Dynamic tabs inputs grid */}
+        <div
+          className={`grid sm:grid-cols-2 ${
+            tripType === 'round-trip' ? 'lg:grid-cols-5' : 'lg:grid-cols-4'
+          } ${compact ? 'gap-4' : 'gap-5'}`}
         >
-          {/* Global error fallback for screen readers */}
-          <div aria-live="polite" className="sr-only">
-            {state?.error && !state.fieldErrors ? state.error : ''}
-          </div>
-
-          {/* Dynamic tabs inputs grid */}
-          <div
-            className={`grid sm:grid-cols-2 ${
-              tripType === 'round-trip' ? 'lg:grid-cols-5' : 'lg:grid-cols-4'
-            } ${compact ? 'gap-4' : 'gap-5'}`}
+          {/* Origin */}
+          <InputGroup
+            label="From"
+            htmlFor="search-origin"
+            error={state?.fieldErrors?.origin}
+            compact={compact}
+            icon={<PlaneTakeoff className="h-4 w-4" />}
           >
-            {/* Origin */}
-            <InputGroup
-              label="From"
-              htmlFor="search-origin"
-              error={state?.fieldErrors?.origin}
-              compact={compact}
-              icon={<PlaneTakeoff className="h-4 w-4" />}
-            >
-              <input
-                id="search-origin"
-                name="origin"
-                type="text"
-                placeholder="e.g. Delhi"
-                autoComplete="off"
-                defaultValue={defaultValues?.origin || ''}
-                className={inputClasses(!!state?.fieldErrors?.origin)}
-              />
-            </InputGroup>
+            <input
+              id="search-origin"
+              name="origin"
+              type="text"
+              placeholder="e.g. Delhi"
+              autoComplete="off"
+              defaultValue={defaultValues?.origin || ''}
+              className={inputClasses(!!state?.fieldErrors?.origin)}
+            />
+          </InputGroup>
 
-            {/* Destination */}
-            <InputGroup
-              label="To"
-              htmlFor="search-destination"
-              error={state?.fieldErrors?.destination}
-              compact={compact}
-              icon={<PlaneLanding className="h-4 w-4" />}
-            >
-              <input
-                id="search-destination"
-                name="destination"
-                type="text"
-                placeholder="e.g. Bangkok"
-                autoComplete="off"
-                defaultValue={defaultValues?.destination || ''}
-                className={inputClasses(!!state?.fieldErrors?.destination)}
-              />
-            </InputGroup>
+          {/* Destination */}
+          <InputGroup
+            label="To"
+            htmlFor="search-destination"
+            error={state?.fieldErrors?.destination}
+            compact={compact}
+            icon={<PlaneLanding className="h-4 w-4" />}
+          >
+            <input
+              id="search-destination"
+              name="destination"
+              type="text"
+              placeholder="e.g. Bangkok"
+              autoComplete="off"
+              defaultValue={defaultValues?.destination || ''}
+              className={inputClasses(!!state?.fieldErrors?.destination)}
+            />
+          </InputGroup>
 
-            {/* Departure Date */}
+          {/* Departure Date */}
+          <InputGroup
+            label="Departure"
+            htmlFor="search-departure-date"
+            error={state?.fieldErrors?.departureDate}
+            compact={compact}
+            icon={<Calendar className="h-4 w-4" />}
+          >
+            <input
+              id="search-departure-date"
+              name="departureDate"
+              type="date"
+              min={today}
+              defaultValue={defaultValues?.departureDate || ''}
+              className={inputClasses(!!state?.fieldErrors?.departureDate)}
+            />
+          </InputGroup>
+
+          {/* Return Date (only visible on Round Trip) */}
+          {tripType === 'round-trip' && (
             <InputGroup
-              label="Departure"
-              htmlFor="search-departure-date"
-              error={state?.fieldErrors?.departureDate}
+              label="Return"
+              htmlFor="search-return-date"
               compact={compact}
               icon={<Calendar className="h-4 w-4" />}
             >
               <input
-                id="search-departure-date"
-                name="departureDate"
+                id="search-return-date"
+                name="returnDate"
                 type="date"
                 min={today}
-                defaultValue={defaultValues?.departureDate || ''}
-                className={inputClasses(!!state?.fieldErrors?.departureDate)}
+                className={inputClasses(false)}
               />
             </InputGroup>
+          )}
 
-            {/* Return Date (only visible on Round Trip) */}
-            {tripType === 'round-trip' && (
-              <InputGroup
-                label="Return"
-                htmlFor="search-return-date"
-                compact={compact}
-                icon={<Calendar className="h-4 w-4" />}
-              >
-                <input
-                  id="search-return-date"
-                  name="returnDate"
-                  type="date"
-                  min={today}
-                  className={inputClasses(false)}
-                />
-              </InputGroup>
-            )}
-
-            {/* Passengers */}
-            <InputGroup
-              label="Passengers"
-              htmlFor="search-passengers"
-              error={state?.fieldErrors?.passengers}
-              compact={compact}
-              icon={<Users className="h-4 w-4" />}
-            >
-              <input
-                id="search-passengers"
-                name="passengers"
-                type="number"
-                min={1}
-                max={9}
-                placeholder="1"
-                defaultValue={defaultValues?.passengers || '1'}
-                className={inputClasses(!!state?.fieldErrors?.passengers)}
-              />
-            </InputGroup>
-          </div>
-
-          {/* Divider + Submit */}
-          <div
-            className={`flex flex-col items-stretch gap-4 border-t border-border/40 sm:flex-row sm:items-center sm:justify-between ${
-              compact ? 'pt-4' : 'pt-5'
-            }`}
+          {/* Passengers */}
+          <InputGroup
+            label="Passengers"
+            htmlFor="search-passengers"
+            error={state?.fieldErrors?.passengers}
+            compact={compact}
+            icon={<Users className="h-4 w-4" />}
           >
-            <p className="text-xs text-muted">
-              Search across all available routes and dates (Cabin:{' '}
-              <span className="capitalize font-semibold text-text">{cabinClass}</span>)
-            </p>
-            <SearchButton />
-          </div>
-        </form>
+            <input
+              id="search-passengers"
+              name="passengers"
+              type="number"
+              min={1}
+              max={9}
+              placeholder="1"
+              defaultValue={defaultValues?.passengers || '1'}
+              className={inputClasses(!!state?.fieldErrors?.passengers)}
+            />
+          </InputGroup>
+        </div>
+
+        {/* Divider + Submit */}
+        <div
+          className={`flex flex-col items-stretch gap-4 border-t border-border/40 sm:flex-row sm:items-center sm:justify-between ${
+            compact ? 'pt-4' : 'pt-5'
+          }`}
+        >
+          <p className="text-xs text-muted">
+            Search across all available routes and dates (Cabin:{' '}
+            <span className="capitalize font-semibold text-text">
+              {cabinClass}
+            </span>
+            )
+          </p>
+          <SearchButton />
+        </div>
+      </form>
     </div>
   );
 }

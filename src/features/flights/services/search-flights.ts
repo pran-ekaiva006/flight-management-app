@@ -150,13 +150,19 @@ export async function searchFlights({
       apiSchedules = schedules;
       externalCooldownMap.set(cooldownKey, now);
     } catch (err) {
-      console.warn('[searchFlights] AirLabs schedule fetch failed (non-fatal):', err);
+      console.warn(
+        '[searchFlights] AirLabs schedule fetch failed (non-fatal):',
+        err,
+      );
     }
   }
 
   // Merge and normalize AirLabs schedules
   for (const rawSchedule of apiSchedules) {
-    const normalized = normalizeSchedule(rawSchedule as AirLabsSchedule, departureDate);
+    const normalized = normalizeSchedule(
+      rawSchedule as AirLabsSchedule,
+      departureDate,
+    );
     if (!normalized) continue;
 
     // Only include flights matching the searched route
@@ -179,8 +185,16 @@ export async function searchFlights({
 
     const seatClasses: SeatClassSummary[] = [
       { class: 'economy', available: 42, startingPrice: normalized.base_price },
-      { class: 'business', available: 8, startingPrice: normalized.base_price + 8000 },
-      { class: 'first', available: 4, startingPrice: normalized.base_price + 15000 },
+      {
+        class: 'business',
+        available: 8,
+        startingPrice: normalized.base_price + 8000,
+      },
+      {
+        class: 'first',
+        available: 4,
+        startingPrice: normalized.base_price + 15000,
+      },
     ];
 
     const departsAt = new Date(normalized.departs_at);

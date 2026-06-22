@@ -11,7 +11,9 @@ export default function LoginPage() {
     <div className="w-full">
       {/* Header */}
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-text font-heading tracking-tight">Welcome back</h1>
+        <h1 className="text-2xl font-bold text-text font-heading tracking-tight">
+          Welcome back
+        </h1>
         <p className="mt-1.5 text-sm font-medium text-muted">
           Sign in to your account
         </p>
@@ -43,7 +45,8 @@ export default function LoginPage() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[11px] font-medium text-text leading-relaxed">
-              Reviewing this project? Click below to instantly sign in with a demo account.
+              Reviewing this project? Click below to instantly sign in with a
+              demo account.
             </p>
             {/* The DemoPanelButton renders here via Portal */}
           </div>

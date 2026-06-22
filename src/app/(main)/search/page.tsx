@@ -110,13 +110,8 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
             <div>
               <h2 className="text-lg font-bold text-text font-heading">
                 Flights from{' '}
-                <span className="text-primary">
-                  {searchParams.origin}
-                </span>{' '}
-                to{' '}
-                <span className="text-primary">
-                  {searchParams.destination}
-                </span>
+                <span className="text-primary">{searchParams.origin}</span> to{' '}
+                <span className="text-primary">{searchParams.destination}</span>
               </h2>
               <p className="mt-1 text-xs text-muted font-medium">
                 {searchParams.departureDate} · {passengers}{' '}

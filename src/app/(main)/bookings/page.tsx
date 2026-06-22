@@ -8,7 +8,17 @@ import { getAirportName } from '@/features/flights/utils/airport-codes';
 import Link from 'next/link';
 import { CancelBookingButton } from '@/features/booking/components/cancel-booking-button';
 import { RescheduleButton } from '@/features/booking/components/reschedule-button';
-import { Plane, Calendar, CreditCard, TicketX, CheckCircle2, RotateCcw, XCircle, ChevronRight, Hash } from 'lucide-react';
+import {
+  Plane,
+  Calendar,
+  CreditCard,
+  TicketX,
+  CheckCircle2,
+  RotateCcw,
+  XCircle,
+  ChevronRight,
+  Hash,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'My Bookings',
@@ -114,8 +124,7 @@ async function BookingsList() {
     },
     cancelled: {
       label: 'Cancelled',
-      color:
-        'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
+      color: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
       icon: <XCircle className="h-3 w-3" />,
     },
   };
@@ -132,12 +141,35 @@ async function BookingsList() {
       {/* Summary Stats Grid */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {[
-          { label: 'Total Bookings', value: bookings.length, icon: <Plane className="h-5 w-5 text-primary" /> },
-          { label: 'Active', value: bookings.filter((b) => b.status === 'confirmed').length, icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" /> },
-          { label: 'Cancelled', value: bookings.filter((b) => b.status === 'cancelled').length, icon: <XCircle className="h-5 w-5 text-red-500" /> },
-          { label: 'Total Spent', value: formatPrice(bookings.filter((b) => b.status !== 'cancelled').reduce((sum, b) => sum + Number(b.total_price), 0)), icon: <CreditCard className="h-5 w-5 text-accent" /> },
+          {
+            label: 'Total Bookings',
+            value: bookings.length,
+            icon: <Plane className="h-5 w-5 text-primary" />,
+          },
+          {
+            label: 'Active',
+            value: bookings.filter((b) => b.status === 'confirmed').length,
+            icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />,
+          },
+          {
+            label: 'Cancelled',
+            value: bookings.filter((b) => b.status === 'cancelled').length,
+            icon: <XCircle className="h-5 w-5 text-red-500" />,
+          },
+          {
+            label: 'Total Spent',
+            value: formatPrice(
+              bookings
+                .filter((b) => b.status !== 'cancelled')
+                .reduce((sum, b) => sum + Number(b.total_price), 0),
+            ),
+            icon: <CreditCard className="h-5 w-5 text-accent" />,
+          },
         ].map((stat, idx) => (
-          <div key={idx} className="card-3d rounded-2xl border border-border/40 bg-card p-5 shadow-sm">
+          <div
+            key={idx}
+            className="card-3d rounded-2xl border border-border/40 bg-card p-5 shadow-sm"
+          >
             <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-surface/50 border border-border/40">
               {stat.icon}
             </div>
@@ -167,7 +199,8 @@ async function BookingsList() {
             class: string;
           } | null;
 
-          const status = statusConfig[booking.status] || statusConfig['confirmed']!;
+          const status =
+            statusConfig[booking.status] || statusConfig['confirmed']!;
           const departsAt = flight ? new Date(flight.departs_at) : null;
           const isFuture = departsAt ? departsAt > new Date() : false;
           const canCancel =
@@ -208,7 +241,7 @@ async function BookingsList() {
                           {status.icon} {status.label}
                         </span>
                       </div>
-                      
+
                       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-muted">
                         <p className="flex items-center gap-1.5 bg-surface/50 px-2.5 py-1 rounded-lg border border-border/30">
                           <Plane className="h-3.5 w-3.5" />
@@ -216,7 +249,10 @@ async function BookingsList() {
                         </p>
                         <p className="flex items-center gap-1.5 bg-surface/50 px-2.5 py-1 rounded-lg border border-border/30">
                           <Hash className="h-3.5 w-3.5" />
-                          PNR: <span className="font-bold text-text">{booking.pnr_code}</span>
+                          PNR:{' '}
+                          <span className="font-bold text-text">
+                            {booking.pnr_code}
+                          </span>
                         </p>
                       </div>
 
@@ -234,9 +270,15 @@ async function BookingsList() {
                         )}
                         {seat && (
                           <span className="flex items-center gap-2">
-                            <span className="text-muted font-medium text-xs uppercase tracking-widest">Seat</span>
-                            <span className="bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/20">{seat.seat_number}</span>
-                            <span className="text-muted text-xs capitalize ml-1">({seat.class})</span>
+                            <span className="text-muted font-medium text-xs uppercase tracking-widest">
+                              Seat
+                            </span>
+                            <span className="bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/20">
+                              {seat.seat_number}
+                            </span>
+                            <span className="text-muted text-xs capitalize ml-1">
+                              ({seat.class})
+                            </span>
                           </span>
                         )}
                       </div>
@@ -246,16 +288,21 @@ async function BookingsList() {
                   {/* Right — price + actions */}
                   <div className="flex items-center gap-6 sm:flex-col sm:items-end justify-between border-t border-border/40 pt-4 sm:border-0 sm:pt-0">
                     <div className="text-right">
-                      <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Total</p>
+                      <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">
+                        Total
+                      </p>
                       <p className="text-2xl font-black text-text font-heading tracking-tight">
                         {formatPrice(Number(booking.total_price))}
                       </p>
                       <p className="mt-1 text-[10px] font-medium text-muted uppercase tracking-wider">
                         Booked{' '}
-                        {new Date(booking.booked_at).toLocaleDateString('en-IN', {
-                          day: 'numeric',
-                          month: 'short',
-                        })}
+                        {new Date(booking.booked_at).toLocaleDateString(
+                          'en-IN',
+                          {
+                            day: 'numeric',
+                            month: 'short',
+                          },
+                        )}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -266,9 +313,7 @@ async function BookingsList() {
                         Details
                         <ChevronRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-0.5" />
                       </Link>
-                      {canCancel && (
-                        <RescheduleButton bookingId={booking.id} />
-                      )}
+                      {canCancel && <RescheduleButton bookingId={booking.id} />}
                       {canCancel && (
                         <CancelBookingButton
                           bookingId={booking.id}

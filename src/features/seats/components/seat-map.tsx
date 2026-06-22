@@ -328,7 +328,8 @@ export function SeatMap({
                   </div>
                   <div>
                     <p className="text-sm font-semibold">
-                      Seat {seat.seat_number} · {classLabels[seat.class]?.label ?? seat.class}
+                      Seat {seat.seat_number} ·{' '}
+                      {classLabels[seat.class]?.label ?? seat.class}
                     </p>
                     <p className="text-xs opacity-70">
                       Extra fee: {formatPrice(seat.extra_fee)}
