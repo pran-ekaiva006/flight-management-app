@@ -38,7 +38,6 @@ export interface NormalizedFlight {
   external_ref: string;
 }
 
-
 function hashCode(str: string): number {
   let hash = 5381;
   for (let i = 0; i < str.length; i++) {
@@ -88,7 +87,6 @@ function generateMockPrice(
   return Math.max(2000, Math.min(50000, price));
 }
 
-/
 export function normalizeSchedule(
   schedule: AirLabsSchedule,
   targetDate?: string,
