@@ -38,6 +38,7 @@ export interface NormalizedFlight {
   external_ref: string;
 }
 
+
 function hashCode(str: string): number {
   let hash = 5381;
   for (let i = 0; i < str.length; i++) {
@@ -86,6 +87,7 @@ function generateMockPrice(
   // Clamp to reasonable range: ₹2,000 – ₹50,000
   return Math.max(2000, Math.min(50000, price));
 }
+
 
 export function normalizeSchedule(
   schedule: AirLabsSchedule,
@@ -136,7 +138,7 @@ export function normalizeSchedule(
           const rawArrDate = new Date(`${rawArrDateStr}T00:00:00Z`);
           dayDiff = Math.round(
             (rawArrDate.getTime() - rawDepDate.getTime()) /
-              (24 * 60 * 60 * 1000),
+            (24 * 60 * 60 * 1000),
           );
           if (isNaN(dayDiff)) dayDiff = 0;
         }
