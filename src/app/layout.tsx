@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { Toaster } from 'sonner';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import './globals.css';
 
@@ -77,6 +78,7 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
