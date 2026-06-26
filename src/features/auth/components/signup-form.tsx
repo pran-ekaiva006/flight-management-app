@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
+import { useRouter } from 'next/navigation';
 import { signupAction, type AuthActionResult } from '../actions/auth-actions';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -94,15 +95,20 @@ export function SignupForm() {
   const [state, formAction] = useFormState(signupAction, initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (state?.error) {
       toast.error(state.error);
     }
     if (state?.success) {
-      toast.success('Account created! Check your email.');
+      toast.success('Account created successfully! Redirecting to sign in...');
+      const timer = setTimeout(() => {
+        router.push('/login');
+      }, 2500);
+      return () => clearTimeout(timer);
     }
-  }, [state?.error, state?.success]);
+  }, [state?.error, state?.success, router]);
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
