@@ -94,6 +94,11 @@ export async function signupAction(
     return { error: error.message };
   }
 
+  // If email confirmation is disabled, Supabase auto-logs the user in.
+  // The user explicitly requested to be redirected to the sign in page.
+  // We sign them out immediately to ensure they actually have to log in.
+  await supabase.auth.signOut();
+
   console.log('Supabase signUp success:', data);
   return { success: true };
 }
