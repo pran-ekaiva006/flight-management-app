@@ -38,6 +38,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
       {
         urlPattern: /\/search\?.*/i,
         handler: 'StaleWhileRevalidate',
+        method: 'GET',
         options: {
           cacheName: 'search-results',
           expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 },
@@ -47,6 +48,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
       {
         urlPattern: /\/bookings$/i,
         handler: 'StaleWhileRevalidate',
+        method: 'GET',
         options: {
           cacheName: 'bookings-page',
           expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 },
@@ -56,6 +58,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
       {
         urlPattern: /^https:\/\/.*\.supabase\.co\/rest\/v1\/.*/i,
         handler: 'NetworkFirst',
+        method: 'GET',
         options: {
           cacheName: 'supabase-api',
           expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 },
@@ -66,6 +69,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
       {
         urlPattern: /^https?:\/\/.*/i,
         handler: 'NetworkFirst',
+        method: 'GET',
         options: {
           cacheName: 'others',
           expiration: { maxEntries: 32, maxAgeSeconds: 24 * 60 * 60 },
