@@ -8,6 +8,15 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   },
   workboxOptions: {
     runtimeCaching: [
+      // ─── Pass through all POST requests (Network Only) ───
+      {
+        urlPattern: /.*/i,
+        handler: 'NetworkOnly',
+        method: 'POST',
+        options: {
+          cacheName: 'post-requests',
+        },
+      },
       // ─── Static assets (fonts, images, CSS, JS) ─────────
       {
         urlPattern: /^https:\/\/fonts\.(?:gstatic|googleapis)\.com\/.*/i,
