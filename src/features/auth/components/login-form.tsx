@@ -151,10 +151,20 @@ function EyeIcon({ open }: { open: boolean }) {
 }
 
 /* ─── Login Form ─────────────────────────────────────── */
-export function LoginForm() {
+export function LoginForm({ registered }: { registered?: boolean }) {
   const [state, formAction] = useFormState(loginAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (registered) {
+      // Use setTimeout to ensure the toast renders after mount
+      const timer = setTimeout(() => {
+        toast.success('Account created successfully! Please sign in.');
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [registered]);
 
   useEffect(() => {
     if (state?.error) {

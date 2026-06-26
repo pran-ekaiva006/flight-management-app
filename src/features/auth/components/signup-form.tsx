@@ -101,14 +101,7 @@ export function SignupForm() {
     if (state?.error) {
       toast.error(state.error);
     }
-    if (state?.success) {
-      toast.success('Account created successfully! Redirecting to sign in...');
-      const timer = setTimeout(() => {
-        router.push('/login');
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [state?.error, state?.success, router]);
+  }, [state?.error]);
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
@@ -117,19 +110,6 @@ export function SignupForm() {
         {state?.error}
       </div>
 
-      {/* Success message */}
-      {state?.success && (
-        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-4 text-sm font-medium text-emerald-600 dark:text-emerald-400">
-          Account created! Check your email for a confirmation link, then{' '}
-          <Link
-            href="/login"
-            className="font-bold underline decoration-emerald-500/40 underline-offset-4 hover:decoration-emerald-500 transition-colors"
-          >
-            sign in
-          </Link>
-          .
-        </div>
-      )}
 
       {/* Full Name */}
       <div className="relative">

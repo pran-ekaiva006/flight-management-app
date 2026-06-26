@@ -6,7 +6,13 @@ export const metadata: Metadata = {
   description: 'Sign in to your SkyBooker account',
 };
 
-export default function LoginPage() {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const isRegistered = searchParams?.registered === 'true';
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -20,7 +26,7 @@ export default function LoginPage() {
       </div>
 
       {/* Form */}
-      <LoginForm />
+      <LoginForm registered={isRegistered} />
 
       {/* Recruiter demo panel */}
       <div

@@ -100,7 +100,7 @@ export async function signupAction(
   await supabase.auth.signOut();
 
   console.log('Supabase signUp success:', data);
-  return { success: true };
+  redirect('/login?registered=true');
 }
 
 export async function logoutAction(): Promise<void> {
