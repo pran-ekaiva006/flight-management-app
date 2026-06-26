@@ -60,20 +60,26 @@ export async function signupAction(
   _prevState: AuthActionResult,
   formData: FormData,
 ): Promise<AuthActionResult> {
+  console.log('--- SIGNUP ACTION STARTED ---');
+  
   const raw = {
     fullName: formData.get('fullName') as string,
     email: formData.get('email') as string,
     password: formData.get('password') as string,
     confirmPassword: formData.get('confirmPassword') as string,
   };
+  
+  console.log('Received raw data:', { ...raw, password: '[REDACTED]', confirmPassword: '[REDACTED]' });
 
   const parsed = signupSchema.safeParse(raw);
   if (!parsed.success) {
+    console.error('Validation failed:', parsed.error.issues);
     return { error: parsed.error.issues[0]?.message || 'Invalid input' };
   }
 
+  console.log('Calling Supabase signUp for email:', parsed.data.email);
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
@@ -84,9 +90,11 @@ export async function signupAction(
   });
 
   if (error) {
+    console.error('Supabase signUp error:', error.message);
     return { error: error.message };
   }
 
+  console.log('Supabase signUp success:', data);
   return { success: true };
 }
 
