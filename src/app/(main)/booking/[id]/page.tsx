@@ -139,7 +139,14 @@ export default async function BookingPage({
   }
 
   // Fetch all seats for this flight
-  const seats = await fetchSeatsForFlight(flightId);
+  let seats = await fetchSeatsForFlight(flightId);
+
+  // Self-healing: if the flight exists but has no seats (e.g. from a manual insert), generate them now
+  if (seats.length === 0) {
+    const admin = createAdminClient();
+    await admin.rpc('generate_seat_map', { p_flight_id: flightId });
+    seats = await fetchSeatsForFlight(flightId);
+  }
 
   const passengers = Number(searchParams.passengers) || 1;
 
