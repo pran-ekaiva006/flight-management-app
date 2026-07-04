@@ -25,16 +25,17 @@ export default async function BookingPage({
   let flight = null;
   let flightId = decodeURIComponent(params.id);
 
-  // Just-in-time persistence for dynamic AirLabs search results
-  if (flightId.startsWith('airlabs__')) {
+  // Just-in-time persistence for dynamic AirLabs and generated search results
+  if (flightId.startsWith('airlabs__') || flightId.startsWith('generated__')) {
     const parts = flightId.split('__');
+    const sourcePrefix = parts[0]; // 'airlabs' or 'generated'
     const flight_no = parts[1];
     const origin = parts[2];
     const destination = parts[3];
     const departs_at = parts[4];
     const arrives_at = parts[5];
     const base_price_str = parts[6];
-    const external_ref = parts[7];
+    const external_ref = parts[7] || null;
 
     if (
       !flight_no ||
@@ -42,8 +43,7 @@ export default async function BookingPage({
       !destination ||
       !departs_at ||
       !arrives_at ||
-      !base_price_str ||
-      !external_ref
+      !base_price_str
     ) {
       notFound();
     }
@@ -75,7 +75,7 @@ export default async function BookingPage({
           arrives_at,
           aircraft_type: 'Unknown Aircraft',
           base_price,
-          source: 'airlabs',
+          source: sourcePrefix,
           external_ref,
         })
         .select('*')
