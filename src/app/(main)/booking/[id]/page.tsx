@@ -45,7 +45,7 @@ export default async function BookingPage({
       !arrives_at ||
       !base_price_str
     ) {
-      notFound();
+      throw new Error(`Missing required flight properties in the URL. Parsed: ${JSON.stringify({ flight_no, origin, destination, departs_at, arrives_at, base_price_str })}`);
     }
 
     const base_price = parseFloat(base_price_str) || 5000;
@@ -86,7 +86,7 @@ export default async function BookingPage({
           '[BookingPage] Failed to insert flight just-in-time:',
           insertError,
         );
-        notFound();
+        throw new Error(`Failed to save flight to database: ${insertError?.message || 'Unknown error'}`);
       }
 
       // Generate seat map for the inserted flight
