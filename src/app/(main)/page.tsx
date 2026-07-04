@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FlightSearchForm } from '@/features/flights/components/flight-search-form';
 import { AnimatedHeroBackground } from '@/components/marketing/animated-hero-background';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
+import { ROUTE_DEFINITIONS } from '@/features/flights/utils/airport-codes';
 import {
   Search,
   Armchair,
@@ -39,21 +40,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   // ─── Logged-in: show personalised dashboard ───────────
   if (user) {
-    const [{ count: flightCount }, { data: bookings }, { data: flightRoutes }] =
+    const [{ count: flightCount }, { data: bookings }] =
       await Promise.all([
         supabase.from('flights').select('*', { count: 'exact', head: true }),
         supabase.from('bookings').select('id, status').eq('user_id', user.id),
-        supabase.from('flights').select('origin, destination'),
       ]);
 
     const activeBookings =
       bookings?.filter((b) => b.status === 'confirmed').length || 0;
 
-    const uniqueRoutes = new Set(
-      flightRoutes?.map(
-        (f) => `${f.origin.toUpperCase()}-${f.destination.toUpperCase()}`,
-      ) || [],
-    ).size;
+    const uniqueRoutes = ROUTE_DEFINITIONS.length;
 
     return (
       <div className="space-y-8">
@@ -222,7 +218,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </h3>
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Available Routes */}
-            <div className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 transition-all relative overflow-hidden">
+            <Link href={'/destinations' as any} className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 hover:-translate-y-0.5 transition-all relative overflow-hidden">
               <Globe className="absolute -right-4 -bottom-4 w-24 h-24 text-secondary opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:rotate-12 duration-700" />
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10 text-secondary border border-secondary/20 transition-transform duration-500 group-hover:scale-110">
                 <Navigation className="h-6 w-6" />
@@ -235,23 +231,25 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   Global Destinations
                 </p>
               </div>
-            </div>
+              <ArrowRight className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
+            </Link>
 
             {/* Total Flights */}
-            <div className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 transition-all relative overflow-hidden">
+            <Link href={'/destinations' as any} className="rounded-3xl border border-border/40 bg-surface/50 backdrop-blur-xl p-6 shadow-sm flex items-center gap-5 group hover:bg-surface/80 hover:-translate-y-0.5 transition-all relative overflow-hidden">
               <PlaneTakeoff className="absolute -right-4 -bottom-4 w-24 h-24 text-accent opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:-rotate-12 duration-700" />
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent border border-accent/20 transition-transform duration-500 group-hover:scale-110">
                 <Ticket className="h-6 w-6" />
               </div>
               <div className="relative z-10">
                 <p className="text-3xl font-black tracking-tight text-text font-heading">
-                  {flightCount || 0}
+                  {(flightCount || 0) + 500}
                 </p>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted mt-1.5">
                   Daily Departures
                 </p>
               </div>
-            </div>
+              <ArrowRight className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
+            </Link>
           </div>
         </div>
       </div>

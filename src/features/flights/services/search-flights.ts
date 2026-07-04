@@ -11,6 +11,7 @@ import {
   normalizeSchedule,
   type AirLabsSchedule,
 } from '@/lib/airlabs/normalize';
+import { generateDailyFlights } from './generate-flights';
 
 interface SearchFlightsParams {
   origin: string;
@@ -22,15 +23,18 @@ interface SearchFlightsParams {
 
 // ─── In-memory cooldown for AirLabs API calls ──────────
 // Key: "ORIGIN|DESTINATION|DATE", Value: epoch ms of last fetch.
-// Prevents re-fetching the same route/date within 5 minutes.
-const EXTERNAL_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes
+// Prevents re-fetching the same route/date within 15 minutes.
+const EXTERNAL_COOLDOWN_MS = 15 * 60 * 1000; // 15 minutes (increased to conserve quota)
 const externalCooldownMap = new Map<string, number>();
 
 /**
  * ─── Search Flights (Server-Only) ───────────────────────
- * Queries flights matching origin/destination/date.
- * Always supplements database flights with live results from the AirLabs API
- * (using temporary dynamic IDs) so the database is not populated during search.
+ * Queries flights from three sources and merges results:
+ * 1. Database (existing flights with real seat maps)
+ * 2. AirLabs API (live schedule data, when available)
+ * 3. Built-in generator (deterministic daily flights, always available)
+ *
+ * Priority: DB > AirLabs > Generated (duplicates are deduped by flight_no + time)
  */
 export async function searchFlights({
   origin,
@@ -71,7 +75,7 @@ export async function searchFlights({
 
   if (error) {
     console.error('[searchFlights] Supabase error:', error);
-    return [];
+    // Don't return empty — fall through to generated flights
   }
 
   const resultsMap = new Map<string, FlightSearchResult>();
@@ -223,7 +227,23 @@ export async function searchFlights({
     } as FlightSearchResult);
   }
 
-  // 3. Convert mapped values, filter by passenger count, and sort
+  // 3. Generate built-in daily flights for this route and date
+  // These serve as a reliable fallback that always produces results
+  const generatedFlights = generateDailyFlights(
+    resolvedOrigin,
+    resolvedDestination,
+    departureDate,
+  );
+
+  for (const genFlight of generatedFlights) {
+    const key = `${genFlight.flight_no}|${genFlight.departs_at}`;
+    // Only add if no DB or AirLabs flight already occupies this slot
+    if (!resultsMap.has(key)) {
+      resultsMap.set(key, genFlight);
+    }
+  }
+
+  // 4. Convert mapped values, filter by passenger count, and sort
   const results = Array.from(resultsMap.values()).filter(
     (f) => f.totalAvailableSeats >= passengers,
   );
@@ -251,3 +271,4 @@ export async function searchFlights({
 
   return results;
 }
+
