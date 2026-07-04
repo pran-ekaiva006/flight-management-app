@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 // Helper to safely extract the first key in case of accidental multiple paste
-const parseKey = (key?: string) => (key || '').split('\n')[0].trim();
+const parseKey = (key?: string) => (key || '').split('\n')[0]?.trim() || '';
 
 /**
  * ─── Middleware Supabase Client ──────────────────────────

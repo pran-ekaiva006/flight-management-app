@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import type { Database } from '@/types/database.types';
 
 // Helper to safely extract the first key in case of accidental multiple paste
-const parseKey = (key?: string) => (key || '').split('\n')[0].trim();
+const parseKey = (key?: string) => (key || '').split('\n')[0]?.trim() || '';
 
 /**
  * ─── Server Supabase Client ─────────────────────────────
