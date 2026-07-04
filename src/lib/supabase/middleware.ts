@@ -1,6 +1,9 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// Helper to safely extract the first key in case of accidental multiple paste
+const parseKey = (key?: string) => (key || '').split('\n')[0].trim();
+
 /**
  * ─── Middleware Supabase Client ──────────────────────────
  * Refreshes the auth session on every request and
@@ -9,8 +12,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = parseKey(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const supabaseAnonKey = parseKey(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
   // Guard: skip auth if env vars are missing (prevents crash during build)
   if (!supabaseUrl || !supabaseAnonKey) {

@@ -2,6 +2,9 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import type { Database } from '@/types/database.types';
 
+// Helper to safely extract the first key in case of accidental multiple paste
+const parseKey = (key?: string) => (key || '').split('\n')[0].trim();
+
 /**
  * ─── Server Supabase Client ─────────────────────────────
  * Use this in Server Components, Server Actions, and Route Handlers.
@@ -11,8 +14,8 @@ export async function createClient() {
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!.trim(),
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!.trim(),
+    parseKey(process.env.NEXT_PUBLIC_SUPABASE_URL),
+    parseKey(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
     {
       cookies: {
         getAll() {
