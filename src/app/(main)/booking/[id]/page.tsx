@@ -20,6 +20,7 @@ export default async function BookingPage({
   params,
   searchParams,
 }: BookingPageProps) {
+  try {
   const supabase = await createClient();
 
   let flight = null;
@@ -53,14 +54,24 @@ export default async function BookingPage({
     const admin = createAdminClient();
 
     // Deduplicate: check if this flight was already persisted
-    const { data: existing } = await admin
+    // Deduplicate: check if this flight was already persisted
+    const { data: existing, error: existingError } = await admin
       .from('flights')
       .select('*')
       .eq('flight_no', flight_no)
       .eq('departs_at', departs_at)
       .maybeSingle();
 
-    if (existing) {
+    if (existingError) {
+      return (
+        <div className="p-8 bg-red-50 text-red-900 rounded-xl border border-red-200 m-8">
+          <h2 className="text-xl font-bold mb-4">Database Query Error</h2>
+          <pre className="p-4 bg-red-100 rounded text-sm overflow-auto">
+            {JSON.stringify(existingError, null, 2)}
+          </pre>
+        </div>
+      );
+    } else if (existing) {
       flight = existing;
       flightId = existing.id;
     } else {
@@ -86,7 +97,16 @@ export default async function BookingPage({
           '[BookingPage] Failed to insert flight just-in-time:',
           insertError,
         );
-        throw new Error(`Failed to save flight to database: ${insertError?.message || 'Unknown error'}`);
+        return (
+          <div className="p-8 bg-red-50 text-red-900 rounded-xl border border-red-200 m-8">
+            <h2 className="text-xl font-bold mb-4">Database Insert Error</h2>
+            <p className="mb-2">We could not save the flight to the database. Please show this error to the developer:</p>
+            <pre className="p-4 bg-red-100 rounded text-sm overflow-auto">
+              {JSON.stringify(insertError, null, 2)}
+            </pre>
+            <p className="mt-4 font-mono text-xs">Payload: {JSON.stringify({ flight_no, origin, destination, departs_at, arrives_at, base_price, source: 'airlabs' })}</p>
+          </div>
+        );
       }
 
       // Generate seat map for the inserted flight
@@ -233,4 +253,18 @@ export default async function BookingPage({
       />
     </div>
   );
+  } catch (err: any) {
+    return (
+      <div className="p-8 bg-red-50 text-red-900 rounded-xl border border-red-200 m-8">
+        <h2 className="text-xl font-bold mb-4">Critical Server Error</h2>
+        <p className="mb-2">The booking page crashed. Error details:</p>
+        <pre className="p-4 bg-red-100 rounded text-sm overflow-auto">
+          {err.message || String(err)}
+        </pre>
+        <pre className="p-4 bg-red-100 rounded text-xs mt-2 overflow-auto">
+          {err.stack}
+        </pre>
+      </div>
+    );
+  }
 }
