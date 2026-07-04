@@ -75,7 +75,7 @@ export default async function BookingPage({
           arrives_at,
           aircraft_type: 'Unknown Aircraft',
           base_price,
-          source: sourcePrefix,
+          source: 'airlabs', // Use 'airlabs' to satisfy DB constraint flights_source_check
           external_ref,
         })
         .select('*')
