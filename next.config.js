@@ -63,6 +63,15 @@ const withPWA = require('@ducanh2912/next-pwa').default({
           expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 },
         },
       },
+      // ─── Booking IDs (Network Only) ───────────────
+      {
+        urlPattern: /\/booking\/.*/i,
+        handler: 'NetworkOnly',
+        method: 'GET',
+        options: {
+          cacheName: 'booking-dynamic',
+        },
+      },
       // ─── Supabase API calls (Network First) ────────────
       {
         urlPattern: /^https:\/\/.*\.supabase\.co\/rest\/v1\/.*/i,
@@ -82,7 +91,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
         options: {
           cacheName: 'others',
           expiration: { maxEntries: 32, maxAgeSeconds: 24 * 60 * 60 },
-          networkTimeoutSeconds: 10,
+          networkTimeoutSeconds: 30,
         },
       },
     ],
