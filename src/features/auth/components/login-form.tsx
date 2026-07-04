@@ -187,7 +187,7 @@ export function LoginForm({ registered }: { registered?: boolean }) {
   };
 
   return (
-    <form ref={formRef} action={formAction} className="space-y-4" noValidate>
+    <form ref={formRef} action={formAction} className="space-y-4" noValidate autoComplete="off">
       {/* Error message fallback for screen readers */}
       <div aria-live="polite" className="sr-only">
         {state?.error}
@@ -214,7 +214,7 @@ export function LoginForm({ registered }: { registered?: boolean }) {
           id="login-email"
           name="email"
           type="email"
-          autoComplete="email"
+          autoComplete="off"
           required
           aria-invalid={state?.error ? 'true' : undefined}
           placeholder="Email"
@@ -245,7 +245,7 @@ export function LoginForm({ registered }: { registered?: boolean }) {
           id="login-password"
           name="password"
           type={showPassword ? 'text' : 'password'}
-          autoComplete="current-password"
+          autoComplete="new-password"
           required
           aria-invalid={state?.error ? 'true' : undefined}
           placeholder="Password"
