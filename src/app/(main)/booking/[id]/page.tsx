@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   description: 'Choose your preferred seat for your flight.',
 };
 
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+
 interface BookingPageProps {
   params: { id: string };
   searchParams: { passengers?: string };
