@@ -207,5 +207,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 <div align="center">
   <br />
   <p>Built by <strong>Pranjal Kumar Verma</strong></p>
-  <p><em>Crafting robust, user-centric web applications.</em></p>
 </div>
